@@ -1,0 +1,7 @@
+.cart-product{
+  transform: translateY(250px);
+  transition: all 300ms;
+}
+.product-container:hover .cart-product{
+  transform: translateY(0);
+}
