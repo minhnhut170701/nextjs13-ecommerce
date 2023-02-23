@@ -1,18 +1,19 @@
-
-import "../../styles/globals.css"
+import "../../styles/globals.css";
 import Footer from "../Footer";
 import Header from "../Header";
 
-export default function ProductLayout({ children }: {
+export default function ProductLayout({
+  children,
+}: {
   children: React.ReactNode;
 }) {
   return (
     <section>
       <Header />
-      <main>
-        {children}
-      </main>
+      <main>{children}</main>
       <Footer />
     </section>
   );
 }
+
+export const dynamicParams = true;

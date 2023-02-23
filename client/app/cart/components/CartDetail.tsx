@@ -5,15 +5,19 @@ import{ BsTrash} from "react-icons/bs"
 import {useSelector, useDispatch} from "react-redux"
 import { decrementQuantity, incrementQuantity, removeItem } from '../../../feature/Cart/CartSlice';
 import Link from "next/link"
+import { toast } from 'react-toastify';
 
 const CartDetail = () => {
   const cart = useSelector((state: any) => state.cart)
+  const  {user} = useSelector((state: any) => state.user)
   const [cartData, setCartData] = useState(cart.cart)
   const dispatch = useDispatch()
   
   useEffect(() =>{
     setCartData(cart.cart)
   }, [cart])  
+
+
 
   return (
     <div className='w-[90%] mx-auto mt-20'>
@@ -73,9 +77,14 @@ const CartDetail = () => {
                 <h3 className='text-sm font-semibold uppercase'>Tổng cộng</h3>
                 <p>$300</p>
             </section>
-            <Link href='/checkout' >
-              <button className='p-2 bg-yellow-300 uppercase text-sm font-semibold mt-5'>Thanh toán</button>
-            </Link>
+            {user ? (
+               <Link href='/checkout' >
+               <button className='p-2 bg-yellow-300 uppercase text-sm font-semibold mt-5'>Thanh toán</button>
+             </Link>
+            ): (
+              <button onClick={() => toast.warning('Vui lòng đăng nhập')} className='p-2 bg-yellow-300 uppercase text-sm font-semibold mt-5'>Thanh toán</button>
+            )}
+           
            
           </div>
       </div>

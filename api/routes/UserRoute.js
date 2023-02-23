@@ -21,21 +21,26 @@ route.post('/register' , async(req, res) =>{
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    const newUser = await User.create({
-      userName,
-      email,
-      password: hashedPassword,
-      isAdmin,
-    })
+    // const checkUser = await User.findOne({email: email})
 
-      if(newUser){
-        res.status(200).json({
-          _id: newUser._id,
-          name: newUser.userName,
-          email: newUser.email,
-          token: generateToken(newUser._id)
-        })
-      }
+   
+      const newUser = await User.create({
+        userName,
+        email,
+        password: hashedPassword,
+        isAdmin,
+      })
+  
+        if(newUser){
+          res.status(200).json({
+            _id: newUser._id,
+            name: newUser.userName,
+            email: newUser.email,
+            token: generateToken(newUser._id)
+          })
+        }
+   
+    
   } catch (error) {
     res.status(500)
     console.log('Lỗi api kìa pa: ', error)
@@ -52,7 +57,7 @@ route.post("/login", async(req,res) =>{
       if (passwordMatch) {
         res.status(200).json({
           _id: logInUser._id,
-          name: logInUser.Username,
+          name: logInUser.userName,
           email: logInUser.email,
           token: generateToken(logInUser._id)
       });

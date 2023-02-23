@@ -1,29 +1,49 @@
-import axios from "axios";
-
 const registerUser = async (userData: any) =>{
-  try {
-    const res = await axios.post('http://localhost:3003/api/user/register', userData)
-    if(res.data){
+    const response = await fetch(`http://localhost:3003/api/user/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      next: {revalidate: 0},
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      const error = await response.clone().json();
+      throw new Error(error.message);
+    }else{
       if(typeof window !== "undefined"){
-        localStorage.setItem('client', JSON.stringify(res.data))
-      } 
+        const clientData = await response.clone().json();
+        localStorage.setItem('client', JSON.stringify(clientData))
+        return response.json()
+      }
+
+      
     }
-    return res.data
-  } catch (error: any) {
-    console.log('Mat khau khong dung')
-  }
+    
 }
 
 const logInUser = async (userData: any) =>{
-  
-    const res = await axios.post('http://localhost:3003/api/user/login', userData)
-    if(res.data){
+  const response = await fetch(`http://localhost:3003/api/user/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      next: {revalidate: 0},
+      body: JSON.stringify(userData),
+    });
+    if (!response.ok) {
+      const error = await response.clone().json();
+      throw new Error(error.message);
+    }else{
       if(typeof window !== "undefined"){
-        localStorage.setItem('client', JSON.stringify(res.data))
-      } 
+        const clientData = await response.clone().json();
+        localStorage.setItem('client', JSON.stringify(clientData))
+        return response.json()
+      }
+
+     
     }
-    return res.data
-  
 }
 
 const logout = () =>{

@@ -8,11 +8,12 @@ type User = {
 }
 
 type UserState = {
-  user: Array<User> | null,
+  user: Object | null,
   isLoading: boolean,
   isSuccess: boolean,
   isError: boolean,
   message: string,
+  userImg:  string
 };
 
 const user = typeof window !== "undefined" ? localStorage.getItem('client'): null
@@ -22,28 +23,29 @@ const initialState: UserState = {
   isError:false,
   isLoading: false,
   isSuccess: false,
-  message: ''
+  message: '',
+  userImg: 'https://images.unsplash.com/photo-1676238641102-24a49ef42493?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'
 }
 
-export const register = createAsyncThunk('auth/register', async (userData, thunkAPI) => {
+export const register = createAsyncThunk('auth/register', async ({userData}: any, thunkAPI) => {
   try {
     return await UserService.registerUser(userData);
   } catch (error: any) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    console.log('lỗi nè: ', message)
     return thunkAPI.rejectWithValue(message);
   }
 });
 
 // login user
-export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) =>{
+export const login = createAsyncThunk('auth/login', async ({userData}: any, thunkAPI) =>{
   try{
       return await UserService.logInUser(userData)
   }catch(error: any){
       const message = (error.reponse && error.response.data && error.response.data.message)
        || error.message
        || error.toString()
-      
-       return thunkAPI.rejectWithValue(message)
+      return thunkAPI.rejectWithValue(message)
   }
 })
 

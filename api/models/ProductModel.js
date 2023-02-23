@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Comment from "./CommentModel.js";
 
 const productSchema = new mongoose.Schema({
   productName: {
@@ -30,9 +31,12 @@ const productSchema = new mongoose.Schema({
   description: {
     type: String,
   },
-  reviewer: {
-    type: Array,
-  },
+  reviewer: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment",
+    },
+  ],
   slug: {
     type: String,
     require: [true, "sản phẩm phải có slug đường dẫn"],

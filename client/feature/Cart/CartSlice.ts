@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 type Product = {
   _id: string,
@@ -6,21 +6,24 @@ type Product = {
   banner: Array<string>,
   price: number,
   qty: number,
-  total: number
+  total: number,
+  discount: string,
 };
 
 type CartState = {
-  cart: Array<Product>
+  cart: Array<Product>,
+  sumTotal: number
 };
 
 type AddToCartAction = {
   type: string,
-  payload: Product
+  payload: Product,
 };
 
 
 const initialState: CartState = {
-  cart: []
+  cart: [],
+  sumTotal: 0
 };
 
 const CartSlice = createSlice({
@@ -32,9 +35,11 @@ const CartSlice = createSlice({
       const productIndex = state.cart.findIndex((p: { _id: string; }) => p._id === product._id);
       if (productIndex === -1) {
         state.cart.push({...product, qty: product.qty, total: product.total});
+        state.sumTotal += product.total
       } else {
         state.cart[productIndex].qty++;
         state.cart[productIndex].total = state.cart[productIndex].price * state.cart[productIndex].qty;
+        state.sumTotal += product.total
       }
     },
     incrementQuantity: (state: any, action: AddToCartAction) => {
@@ -42,6 +47,7 @@ const CartSlice = createSlice({
       const productIndex = state.cart.findIndex((p: { _id: string; }) => p._id === product._id);
       state.cart[productIndex].qty++;
       state.cart[productIndex].total = state.cart[productIndex].price * state.cart[productIndex].qty;
+      state.sumTotal += product.total
     },
     decrementQuantity: (state:any, action: AddToCartAction) => {
       const product = action.payload;
@@ -50,6 +56,7 @@ const CartSlice = createSlice({
         state.cart[productIndex].qty = 1;
       } else {
         state.cart[productIndex].qty--;
+        state.sumTotal -= product.total
       }
       state.cart[productIndex].total = state.cart[productIndex].price * state.cart[productIndex].qty;
     },
@@ -57,6 +64,12 @@ const CartSlice = createSlice({
       const product = action.payload;
       const removeItem = state.cart.filter((item: any) => item._id !== product._id);
       state.cart = removeItem;
+    },
+    applyDiscount: (state:any, action: AddToCartAction) => {
+      const product = action.payload;
+      if(product.discount === 'lucas'){
+        state.sumTotal = state.sumTotal *((100 - 10) / 100)
+      }
     },
   },
  

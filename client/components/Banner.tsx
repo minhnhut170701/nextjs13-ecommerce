@@ -2,6 +2,7 @@
 import React from 'react'
 
 const Banner = () => {
+  
   return (
     <div className='bg-banner-1 bg-no-repeat bg-top bg-cover w-full h-[600px] text-white'>
       <section className='flex items-center justify-center w-[30%] h-full mx-auto'>
