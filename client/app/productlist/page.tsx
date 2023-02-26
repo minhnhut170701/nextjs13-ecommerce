@@ -4,6 +4,8 @@ import { base64Decode } from "../../utils/encodeParams";
 import Product from "../../components/Product";
 import ProductSearch from "./components/ProductSearch";
 
+export const dynamic = "force-dynamic";
+
 async function featchDataSearch(searchText: string, range: string) {
   const searchDecode = base64Decode(searchText);
   const response = await fetch(
@@ -60,15 +62,20 @@ const ProductList = async ({ searchParams, product }: any) => {
 
   return (
     <div>
-      <aside>
-        <h2 className="font-semibold">Tìm kiếm cho: </h2>
-        <p>{decode}</p>
-      </aside>
-      <ProductSearch
-        data={dataSearch}
-        searchParams={searchParams.searchText}
-        range={searchParams.range}
-      />
+      {searchParams.searchText || searchParams.range ? (
+        <>
+          <aside>
+            <h2 className="font-semibold">Tìm kiếm cho: </h2>
+            <p>{decode}</p>
+          </aside>
+          <ProductSearch data={dataSearch} />
+        </>
+      ) : (
+        <>
+          <h1>Product List</h1>
+          <Product data={dataList} />
+        </>
+      )}
     </div>
   );
 };
