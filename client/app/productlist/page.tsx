@@ -60,24 +60,15 @@ const ProductList = async ({ searchParams, product }: any) => {
 
   return (
     <div>
-      {searchParams.searchText || searchParams.range ? (
-        <>
-          <aside>
-            <h2 className="font-semibold">Tìm kiếm cho: </h2>
-            <p>{decode}</p>
-          </aside>
-          <ProductSearch
-            data={dataSearch}
-            searchParams={searchParams.searchText}
-            range={searchParams.range}
-          />
-        </>
-      ) : (
-        <>
-          <h1>Product List</h1>
-          <Product data={dataList} />
-        </>
-      )}
+      <aside>
+        <h2 className="font-semibold">Tìm kiếm cho: </h2>
+        <p>{decode}</p>
+      </aside>
+      <ProductSearch
+        data={dataSearch}
+        searchParams={searchParams.searchText}
+        range={searchParams.range}
+      />
     </div>
   );
 };
