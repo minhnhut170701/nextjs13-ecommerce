@@ -73,7 +73,7 @@ const ProductInfor = ({
   }, [dispatch, data]);
 
   return (
-    <div className="mt-16">
+    <div className="mt-16" key={Id}>
       <Tab.Group>
         <div className="border-b-2">
           <Tab.List className="w-[40%] flex">
@@ -128,8 +128,8 @@ const ProductInfor = ({
           </Tab.Panel>
           <Tab.Panel>
             <div className="w-[25%] mt-5">
-              {infor.map((item: any) => (
-                <>
+              {infor.map((item: any, index: number) => (
+                <div key={index}>
                   <article className="flex items-center justify-between">
                     <h4 className="text-lg font-semibold uppercase">
                       Weight:{" "}
@@ -146,7 +146,7 @@ const ProductInfor = ({
                     <h4 className="text-lg font-semibold uppercase">SIZE: </h4>
                     <p> {item.size}</p>
                   </article>
-                </>
+                </div>
               ))}
             </div>
           </Tab.Panel>

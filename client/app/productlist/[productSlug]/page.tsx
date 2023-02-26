@@ -28,9 +28,6 @@ async function getProductCategory(productSlug: string) {
 const ProductSlug = async ({ params: { productSlug } }: Pageprops) => {
   const data = await getProductCategory(productSlug);
 
-  if (!data) {
-    notFound();
-  }
   return (
     <section>
       <Product data={data} />

@@ -30,7 +30,7 @@ route.get("/", async (req, res) => {
 // });
 
 // find one a product
-route.get("/detail/:productSlug", async (req, res) => {
+route.get("/detail/:productSlug/", async (req, res) => {
   const { productSlug } = req.params;
   if (!productSlug) {
     res.status(400).json({ message: "Missing parameter: productSlug" });
@@ -50,8 +50,14 @@ route.get("/detail/:productSlug", async (req, res) => {
 //filter category
 route.get("/category/:cateName", async (req, res) => {
   const { cateName } = req.params;
+  let categories = [cateName];
+  if (cateName === "ao-nam" || cateName === "ao-nu") {
+    categories.push("unisex");
+  }
   try {
-    const cateProduct = await Product.find({ categorySlug: cateName });
+    const cateProduct = await Product.find({
+      categorySlug: { $in: categories },
+    });
     if (cateProduct) {
       res.status(200).json(cateProduct);
     }
@@ -63,35 +69,34 @@ route.get("/category/:cateName", async (req, res) => {
 
 // search product by name
 route.post("/search", async (req, res) => {
-  const { searchText } = req.body;
+  const { searchText, rangePrice } = req.body;
 
-  let encodedData = Buffer.from(searchText, "utf8").toString("base64");
-  encodedData = encodedData.replace(/\//g, "_").replace(/\+/g, "-");
+  const regexSearchText = new RegExp(searchText.toLowerCase(), "i");
 
-  let decodedData = encodedData.replace(/_/g, "/").replace(/-/g, "+");
-  decodedData = Buffer.from(decodedData, "base64").toString("utf8");
+  // Check if rangePrice is undefined
+  let priceFilter = {};
+  if (rangePrice && rangePrice !== "0") {
+    priceFilter = {
+      price: {
+        $gte: 0,
+        $lte: rangePrice,
+      },
+    };
+  }
 
   try {
-    const products = await Product.find();
-    if (products) {
-      const dataSearch = products.filter((item) => {
-        let productName = item.productName
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        let searchTextLower = decodedData
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        productName = productName.replace("đ", "d");
-        searchTextLower = searchTextLower.replace("đ", "d");
+    const products = await Product.find({
+      $and: [
+        priceFilter,
+        {
+          productName: { $regex: regexSearchText },
+        },
+      ],
+    });
 
-        return productName.includes(searchTextLower);
-      });
-      res.status(200).json(dataSearch);
-    }
+    res.status(200).json(products);
   } catch (error) {
-    res.status(500);
+    res.status(500).json({ error: "Server Error" });
   }
 });
 

@@ -55,7 +55,7 @@ const ListProductHome = ({ product }: any) => {
         })
       );
 
-      router.push("/cart");
+      toast.success("Đã thêm vào giỏ hàng");
     } else {
       toast.warning("Vui lòng đăng nhập");
     }

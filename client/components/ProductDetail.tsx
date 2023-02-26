@@ -95,7 +95,7 @@ const ProductDetail = ({
           discount: "",
         })
       );
-      route.push("/cart");
+      toast.success("Đã thêm vào giỏ hàng");
     } else {
       toast.warning("Vui lòng đăng nhập");
     }
@@ -143,6 +143,7 @@ const ProductDetail = ({
       initial: 0,
       slides: {
         perView: 3,
+        spacing: 10,
       },
     },
     [ThumbnailPlugin(instanceRef)]
@@ -150,14 +151,16 @@ const ProductDetail = ({
 
   return (
     <>
-      <div className="flex space-x-10">
+      <div className="flex flex-col lg:flex-row lg:space-x-10">
         {/* img banner slice start */}
-        <div className="w-[35%]">
+        <div className="lg:w-[35%]">
           <div ref={sliderRef} className="keen-slider">
             {banner.map((item: any, i: any) => (
               <div
                 key={i + 1}
-                className={`keen-slider__slide number-slide${i + 1} p-4`}
+                className={`keen-slider__slide number-slide${
+                  i + 1
+                } p-4 lg:flex-none flex justify-center`}
               >
                 <Image
                   src={item}
@@ -175,21 +178,21 @@ const ProductDetail = ({
                 key={i + 1}
                 className={`keen-slider__slide number-slide${
                   i + 1
-                } cursor-pointer`}
+                } cursor-pointer flex justify-center`}
               >
                 <Image
                   src={item}
                   width={100}
                   height={100}
                   alt={productName}
-                  className="w-[100px] h-[100px]"
+                  className="w-[100px] h-[100px]  "
                 />
               </div>
             ))}
           </div>
         </div>
         {/* img banner slice end */}
-        <div className="space-y-5 w-[65%]">
+        <div className="space-y-5 lg:w-[65%] lg:mt-0 mt-10">
           <h2 className="uppercase text-3xl font-semibold">{productName}</h2>
           <div className="flex space-x-1 text-yellow-400">
             <span>

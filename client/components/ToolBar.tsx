@@ -21,6 +21,7 @@ import { base64Encode } from "../utils/encodeParams";
 
 const ToolBar = () => {
   const [searchText, setSearchText] = useState("");
+  const [rangeValue, setRangeValue] = useState("");
   const router = useRouter();
 
   const handleSubmitSearch = (
@@ -28,7 +29,14 @@ const ToolBar = () => {
   ) => {
     e.preventDefault();
     const encoded = base64Encode(searchText);
-    router.push(`/productlist?searchText=${encoded}`);
+    router.push(`/productlist?searchText=${encoded}&range=${rangeValue}`);
+  };
+  const handleSubmitRange = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    const encoded = base64Encode(searchText);
+    router.push(`/productlist?searchText=${encoded}&range=${rangeValue}`);
   };
 
   return (
@@ -165,10 +173,26 @@ const ToolBar = () => {
 
       <h2 className="p-4 text-xl font-bold uppercase mt-5">Lọc theo giá</h2>
       <form className="w-[60%]">
-        <input type="range" id="volume" name="volume" min="0" max="11" />
+        <input
+          type="range"
+          id="volume"
+          name="volume"
+          min="0"
+          max="400"
+          defaultValue={0}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setRangeValue(e.target.value)
+          }
+        />
         <div className="flex items-center justify-between mt-5">
-          <p>$0-255$</p>
-          <button className="p-2 pl-6 pr-6 bg-yellow-300">Lọc</button>
+          <p>0$-{rangeValue}$</p>
+          <button
+            type="submit"
+            className="p-2 pl-6 pr-6 bg-yellow-300"
+            onClick={handleSubmitRange}
+          >
+            Lọc
+          </button>
         </div>
       </form>
     </div>
