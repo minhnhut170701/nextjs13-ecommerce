@@ -2,7 +2,7 @@
 
 // add comment 
 const fetchCommentData = async (commentData: any, productId: string) =>{
-  const response = await fetch(`http://localhost:3003/api/comment/add/${productId}`,{
+  const response = await fetch(`https://nextjs13-ecommerce.onrender.com/api/comment/add/${productId}`,{
     method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -17,7 +17,7 @@ const fetchCommentData = async (commentData: any, productId: string) =>{
 
 // get comment 
 const getComment = async (productId: any) =>{
-  const response = await fetch(`http://localhost:3003/api/comment/${productId}`, {next: {revalidate: 0}})
+  const response = await fetch(`https://nextjs13-ecommerce.onrender.com/api/comment/${productId}`, {next: {revalidate: 0}})
 
   return response.json()
 }

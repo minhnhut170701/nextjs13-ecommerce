@@ -1,5 +1,5 @@
 const registerUser = async (userData: any) =>{
-    const response = await fetch(`http://localhost:3003/api/user/register`, {
+    const response = await fetch(`https://nextjs13-ecommerce.onrender.com/api/user/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -24,7 +24,7 @@ const registerUser = async (userData: any) =>{
 }
 
 const logInUser = async (userData: any) =>{
-  const response = await fetch(`http://localhost:3003/api/user/login`, {
+  const response = await fetch(`https://nextjs13-ecommerce.onrender.com/api/user/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

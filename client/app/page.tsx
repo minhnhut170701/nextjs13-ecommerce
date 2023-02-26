@@ -11,9 +11,12 @@ import Footer from "./Footer";
 import Link from "next/link";
 
 async function getData() {
-  const res = await fetch("http://localhost:3003/api/product", {
-    next: { revalidate: 30 },
-  });
+  const res = await fetch(
+    "https://nextjs13-ecommerce.onrender.com/api/product",
+    {
+      next: { revalidate: 30 },
+    }
+  );
 
   if (!res.ok) {
     console.log("Failed to fetch data");

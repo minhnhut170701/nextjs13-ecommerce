@@ -6,14 +6,17 @@ import ProductSearch from "./components/ProductSearch";
 
 async function featchDataSearch(searchText: string, range: string) {
   const searchDecode = base64Decode(searchText);
-  const response = await fetch(`http://localhost:3003/api/product/search`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    next: { revalidate: 60 },
-    body: JSON.stringify({ searchText: searchDecode, rangePrice: range }),
-  });
+  const response = await fetch(
+    `https://nextjs13-ecommerce.onrender.com/api/product/search`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      next: { revalidate: 60 },
+      body: JSON.stringify({ searchText: searchDecode, rangePrice: range }),
+    }
+  );
 
   if (!response.ok) {
     throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -24,9 +27,12 @@ async function featchDataSearch(searchText: string, range: string) {
 }
 
 async function getData() {
-  const res = await fetch("http://localhost:3003/api/product", {
-    next: { revalidate: 30 },
-  });
+  const res = await fetch(
+    "https://nextjs13-ecommerce.onrender.com/api/product",
+    {
+      next: { revalidate: 30 },
+    }
+  );
 
   if (!res.ok) {
     console.log("Failed to fetch data");

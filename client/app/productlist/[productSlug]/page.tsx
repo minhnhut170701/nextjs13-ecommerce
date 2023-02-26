@@ -14,7 +14,7 @@ type Pageprops = {
 
 async function getProductCategory(productSlug: string) {
   const res = await fetch(
-    `http://localhost:3003/api/product/category/${productSlug}`,
+    `https://nextjs13-ecommerce.onrender.com/api/product/category/${productSlug}`,
     { next: { revalidate: 30 } }
   );
   if (!res.ok) {

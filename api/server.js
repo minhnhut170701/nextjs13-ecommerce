@@ -32,4 +32,4 @@ app.use("/api/comment", commentRoute);
 
 connectMongo();
 
-app.listen(3003, () => console.log("server running 3003"));
+app.listen(3003 || process.env.PORT, () => console.log("server running 3003"));

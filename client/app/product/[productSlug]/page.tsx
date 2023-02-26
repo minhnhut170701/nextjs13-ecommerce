@@ -28,7 +28,7 @@ type ProductDetailProps = {
 
 async function getProductDetail(productSlug: string) {
   const res = await fetch(
-    `http://localhost:3003/api/product/detail/${productSlug}`,
+    `https://nextjs13-ecommerce.onrender.com/api/product/detail/${productSlug}`,
     { next: { revalidate: 60 } }
   );
   if (!res.ok) {
@@ -40,9 +40,12 @@ async function getProductDetail(productSlug: string) {
 }
 
 async function getProduct() {
-  const res = await fetch(`http://localhost:3003/api/product`, {
-    next: { revalidate: 60 },
-  });
+  const res = await fetch(
+    `https://nextjs13-ecommerce.onrender.com/api/product`,
+    {
+      next: { revalidate: 60 },
+    }
+  );
   if (!res.ok) {
     console.log("lỗi");
   }
