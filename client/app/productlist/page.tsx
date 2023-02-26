@@ -56,8 +56,6 @@ const ProductList = async ({ searchParams, product }: any) => {
       searchParams.range
     );
   }
-
-  console.log("search nè: ", searchParams);
   const decode = base64Decode(searchParams.searchText || "");
 
   return (
