@@ -35,7 +35,7 @@ const Product = ({ data }: any) => {
         style={{ background: "white", color: "black" }}
         className="btn-group w-full flex justify-center items-center mt-10"
       >
-        {pageNumbers.map((number) => (
+        {pageNumbers.map((number: any) => (
           <button
             key={number}
             className="btn"
