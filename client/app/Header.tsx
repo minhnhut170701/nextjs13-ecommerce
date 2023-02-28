@@ -5,11 +5,13 @@ import { FiUser, FiShoppingCart } from "react-icons/fi";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../feature/User/UserSlice";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import Image from "next/image";
+import { cleanItemCart, getItemCart } from "../feature/Cart/CartSlice";
 
 const Header = () => {
+  const searchParams: any = useSearchParams();
   const [headerFixed, setHeaderFixed] = useState("relative");
   const { user, userImg } = useSelector((state: any) => state.user);
   const { cart } = useSelector((state: any) => state.cart);
@@ -24,6 +26,14 @@ const Header = () => {
       windowHeight > 50 ? setHeaderFixed("fixed") : setHeaderFixed("relative");
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      if (searchParams.get("success") === "true") {
+        dispatch(cleanItemCart(user._id));
+      }
+    }
+  }, []);
 
   useEffect(() => {
     window.addEventListener("scroll", handleWindowResize);
@@ -44,10 +54,13 @@ const Header = () => {
   }, [user]);
 
   useEffect(() => {
-    if (cart.length >= 0) {
-      setNotifiItem(cart.length);
+    if (user) {
+      dispatch(getItemCart(user._id));
+      if (cart.length >= 0) {
+        setNotifiItem(cart.length);
+      }
     }
-  }, [cart]);
+  }, [cart, dispatch]);
 
   return (
     <header

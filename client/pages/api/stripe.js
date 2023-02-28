@@ -35,7 +35,7 @@ export default async function handler(req, res) {
           },
         ],
         line_items: req.body.map((item) => {
-          const img = item.banner[0];
+          const img = item.banner;
           return {
             price_data: {
               currency: "usd",

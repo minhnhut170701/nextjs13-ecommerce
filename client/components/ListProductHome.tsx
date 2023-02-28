@@ -6,10 +6,10 @@ import "../styles/custom.css";
 import Link from "next/link";
 
 import { useDispatch } from "react-redux";
-import { addToCart } from "../feature/Cart/CartSlice";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { addToCart, getItemCart } from "../feature/Cart/CartSlice";
 
 type Product = {
   _id: string;
@@ -43,18 +43,18 @@ const ListProductHome = ({ product }: any) => {
 
   const handleAddToCart = (product: any) => {
     if (user?.email) {
+      const cartItem = {
+        productName: product.productName,
+        banner: product.banner[0],
+        price: product.price,
+        qty: 1,
+      };
       dispatch(
         addToCart({
-          _id: product._id,
-          productName: product.productName,
-          banner: product.banner,
-          price: product.price,
-          qty: 1,
-          total: product.price,
-          discount: "",
+          cartData: cartItem,
+          userId: user._id,
         })
       );
-
       toast.success("Đã thêm vào giỏ hàng");
     } else {
       toast.warning("Vui lòng đăng nhập");

@@ -4,22 +4,22 @@ import Image from "next/image";
 import { FaShippingFast } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
-import {
-  decrementQuantity,
-  incrementQuantity,
-} from "../../../feature/Cart/CartSlice";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import {
+  decrementItemCart,
+  getItemCart,
+  incrementItemCart,
+} from "../../../feature/Cart/CartSlice";
 
 const ProductCheck = () => {
   const { cart } = useSelector((state: any) => state.cart);
   const { user } = useSelector((state: any) => state.user);
-  const [cartData, setCartData] = useState([]);
   const dispatch = useDispatch();
   const route = useRouter();
   useEffect(() => {
-    if (cart) {
-      setCartData(cart);
+    if (user) {
+      dispatch(getItemCart(user._id));
     }
   }, [cart]);
 
@@ -38,13 +38,13 @@ const ProductCheck = () => {
         </Link>
       </aside>
       <ul className="mt-10">
-        {cartData.map((item: any) => (
+        {cart.map((item: any) => (
           <li
             className=" flex space-x-10 w-full pb-5 pt-5 border-b-2"
             key={item._id}
           >
             <Image
-              src={item.banner[0]}
+              src={item.banner}
               alt={item.productName}
               width={80}
               height={80}
@@ -76,7 +76,7 @@ const ProductCheck = () => {
               <div className="flex items-center w-[70%] mx-auto  border  rounded-md">
                 <button
                   className="border-r-2 w-[50px] h-full"
-                  onClick={() => dispatch(decrementQuantity(item))}
+                  onClick={() => dispatch(decrementItemCart(item._id))}
                 >
                   -
                 </button>
@@ -88,7 +88,7 @@ const ProductCheck = () => {
                 />
                 <button
                   className="border-l-2 w-[50px] h-full"
-                  onClick={() => dispatch(incrementQuantity(item))}
+                  onClick={() => dispatch(incrementItemCart(item._id))}
                 >
                   +
                 </button>

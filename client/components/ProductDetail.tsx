@@ -82,17 +82,18 @@ const ProductDetail = ({
     setCountQty(countQty <= 0 ? 1 : countQty);
   }, [countQty]);
 
-  const handleAddToCart = (product: Product, countQty: number) => {
+  const handleAddToCart = (product: any, countQty: number) => {
     if (user?.email) {
+      const cartItem = {
+        productName: product.productName,
+        banner: product.banner,
+        price: product.price,
+        qty: countQty,
+      };
       dispatch(
         addToCart({
-          _id: product._id,
-          productName: product.productName,
-          banner: product.banner,
-          price: product.price,
-          qty: countQty,
-          total: product.price * countQty,
-          discount: "",
+          cartData: cartItem,
+          userId: user._id,
         })
       );
       toast.success("Đã thêm vào giỏ hàng");

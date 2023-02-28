@@ -1,11 +1,16 @@
 "use client";
+import { useSearchParams } from "next/navigation";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { cleanItemCart } from "../../../feature/Cart/CartSlice";
 import getStripe from "../../../lib/getStripe";
 
 const PaymentInfo = () => {
+  const searchParams = useSearchParams();
   const { cart } = useSelector((state: any) => state.cart);
+  const { user } = useSelector((state: any) => state.user);
+  const dispatch = useDispatch();
 
   const handleCheckout = async () => {
     const stripe = await getStripe();
@@ -24,6 +29,8 @@ const PaymentInfo = () => {
     toast.loading("Redirecting...");
 
     stripe.redirectToCheckout({ sessionId: data.id });
+
+    dispatch(cleanItemCart(user._id));
   };
   return (
     <div className="border w-[40%] bg-white rounded-lg p-6">

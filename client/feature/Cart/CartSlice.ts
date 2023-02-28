@@ -1,83 +1,128 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { CartService } from './CartService';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 type Product = {
-  _id: string,
   productName: string,
-  banner: Array<string>,
+  banner: string,
   price: number,
   qty: number,
-  total: number,
-  discount: string,
 };
 
 type CartState = {
   cart: Array<Product>,
-  sumTotal: number
+  isSuccess: boolean,
+  isLoading: boolean,
+  isError: boolean,
+  message: string
 };
 
-type AddToCartAction = {
-  type: string,
-  payload: Product,
-};
+type AddToCartType = {
+  cartData: Product,
+  userId: string,
+}
 
 
 const initialState: CartState = {
   cart: [],
-  sumTotal: 0
+  isSuccess: false,
+  isLoading: false,
+  isError: false,
+  message: ""
 };
 
+
+export const addToCart = createAsyncThunk('addtoCart', async({cartData, userId}: AddToCartType, thunk) =>{
+  try {
+    return await CartService.fetchAdd(cartData, userId)
+  } catch (error) {
+    return thunk.rejectWithValue(error)
+  }
+})
+export const getItemCart = createAsyncThunk('getItemCart', async(userId: string, thunk) =>{
+  try {
+    return await CartService.fetchItemCart(userId)
+  } catch (error) {
+    return thunk.rejectWithValue(error)
+  }
+})
+
+export const deleteItemCart = createAsyncThunk('deleteItemCart', async(cartId: string, thunk) =>{
+  try {
+    return await CartService.fetchRemoveItem(cartId)
+  } catch (error) {
+    return thunk.rejectWithValue(error)
+  }
+})
+export const incrementItemCart = createAsyncThunk('incrementItemCart', async(cartId: string, thunk) =>{
+  try {
+    return await CartService.fetchIncrementItem(cartId)
+  } catch (error) {
+    return thunk.rejectWithValue(error)
+  }
+})
+export const decrementItemCart = createAsyncThunk('decrementItemCart', async(cartId: string, thunk) =>{
+  try {
+    return await CartService.fetchDecrementItem(cartId)
+  } catch (error) {
+    return thunk.rejectWithValue(error)
+  }
+})
+export const cleanItemCart = createAsyncThunk('cleantItemCart', async(userId: string, thunk) =>{
+  try {
+    return await CartService.fetchCleanItem(userId)
+  } catch (error) {
+    return thunk.rejectWithValue(error)
+  }
+})
 const CartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers:{
-    addToCart: (state: any, action: AddToCartAction) => {
-      const product = action.payload ;
-      const productIndex = state.cart.findIndex((p: { _id: string; }) => p._id === product._id);
-      if (productIndex === -1) {
-        state.cart.push({...product, qty: product.qty, total: product.total});
-        state.sumTotal += product.total
-      } else {
-        state.cart[productIndex].qty++;
-        state.cart[productIndex].total = state.cart[productIndex].price * state.cart[productIndex].qty;
-        state.sumTotal += product.total
-      }
-    },
-    incrementQuantity: (state: any, action: AddToCartAction) => {
-      const product = action.payload;
-      const productIndex = state.cart.findIndex((p: { _id: string; }) => p._id === product._id);
-      state.cart[productIndex].qty++;
-      state.cart[productIndex].total = state.cart[productIndex].price * state.cart[productIndex].qty;
-      state.sumTotal += product.total
-    },
-    decrementQuantity: (state:any, action: AddToCartAction) => {
-      const product = action.payload;
-      const productIndex = state.cart.findIndex((p: { _id: string; }) => p._id === product._id);
-      if (state.cart[productIndex].qty === 1) {
-        state.cart[productIndex].qty = 1;
-      } else {
-        state.cart[productIndex].qty--;
-        state.sumTotal -= product.total
-      }
-      state.cart[productIndex].total = state.cart[productIndex].price * state.cart[productIndex].qty;
-    },
-    removeItem: (state: any, action: AddToCartAction) => {
-      const product = action.payload;
-      const removeItem = state.cart.filter((item: any) => item._id !== product._id);
-      state.cart = removeItem;
-    },
-    applyDiscount: (state:any, action: AddToCartAction) => {
-      const product = action.payload;
-      if(product.discount === 'lucas'){
-        state.sumTotal = state.sumTotal *((100 - 10) / 100)
-      }
-    },
+    
   },
+  extraReducers: (builder) =>{
+    builder
+    .addCase(addToCart.pending, (state) =>{
+      state.isLoading = true
+    })
+    .addCase(addToCart.fulfilled, (state, action) =>{
+      state.isLoading = false,
+      state.isSuccess = true,
+      state.message = action.payload
+    })
+    .addCase(addToCart.rejected, (state: any, action) =>{
+      state.isLoading = false,
+      state.isError = true,
+      state.message = action.payload
+    })
+    .addCase(getItemCart.pending, (state) =>{
+      state.isLoading = true
+    })
+    .addCase(getItemCart.fulfilled, (state, action) =>{
+      state.isLoading = false,
+      state.isSuccess = true,
+      state.cart = action.payload
+    })
+    .addCase(getItemCart.rejected, (state: any, action) =>{
+      state.isLoading = false,
+      state.isError = true,
+      state.message = action.payload
+    })
+    .addCase(deleteItemCart.pending, (state) =>{
+      state.isLoading = true
+    })
+    .addCase(deleteItemCart.fulfilled, (state, action) =>{
+      state.isLoading = false,
+      state.isSuccess = true,
+      state.message = action.payload
+    })
+    .addCase(deleteItemCart.rejected, (state: any, action) =>{
+      state.isLoading = false,
+      state.isError = true,
+      state.message = action.payload
+    })
+  }
  
 })
-export const {
-  addToCart,
-  incrementQuantity,
-  decrementQuantity,
-  removeItem,
-} = CartSlice.actions;
+
 export default CartSlice.reducer
