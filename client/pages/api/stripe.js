@@ -3,11 +3,18 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.NEXT_SECRET_STRIPE_KEY);
 
 export default async function handler(req, res) {
+  const { cart, discount } = req.body;
+  const coupon = await stripe.coupons.retrieve(`${discount}`);
   if (req.method === "POST") {
     try {
       const params = {
         submit_type: "pay",
         mode: "payment",
+        discounts: [
+          {
+            coupon: `${coupon.id}`,
+          },
+        ],
         payment_method_types: ["card"],
         billing_address_collection: "auto",
         shipping_options: [
@@ -34,7 +41,7 @@ export default async function handler(req, res) {
             },
           },
         ],
-        line_items: req.body.map((item) => {
+        line_items: cart.map((item) => {
           const img = item.banner;
           return {
             price_data: {

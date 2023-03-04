@@ -1,16 +1,17 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { cleanItemCart } from "../../../feature/Cart/CartSlice";
 import getStripe from "../../../lib/getStripe";
 
 const PaymentInfo = () => {
-  const searchParams = useSearchParams();
+  const searchParams: any = useSearchParams();
   const { cart } = useSelector((state: any) => state.cart);
   const { user } = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
+  let totalPrice: number = 0;
 
   const handleCheckout = async () => {
     const stripe = await getStripe();
@@ -19,7 +20,10 @@ const PaymentInfo = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(cart),
+      body: JSON.stringify({
+        cart: cart,
+        discount: decodeURIComponent(searchParams.get("discount")) || "",
+      }),
     });
 
     if (!response.ok) return;

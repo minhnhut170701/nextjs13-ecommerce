@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { BsTrash } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -16,12 +16,30 @@ import {
 const CartDetail = () => {
   const { cart, message } = useSelector((state: any) => state.cart);
   const { user } = useSelector((state: any) => state.user);
-  const [cartData, setCartData] = useState(cart);
+  const [discount, setDiscout] = useState("");
+  const discountRef: any = useRef();
   const dispatch = useDispatch();
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     dispatch(getItemCart(user._id));
-  }, [cart, message, dispatch]);
+  }, [message, dispatch]);
+
+  useEffect(() => {
+    if (cart) {
+      const total = cart.reduce(
+        (prev: any, current: any) => (prev = prev + current.total),
+        0
+      );
+      setTotalPrice(total);
+    }
+    console.log("jhehehe: ", totalPrice);
+  }, [totalPrice, dispatch]);
+
+  const handleApplyDiscount = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setDiscout(discountRef.current.value);
+  };
 
   return (
     <div className="w-[90%] mx-auto mt-20">
@@ -87,16 +105,30 @@ const CartDetail = () => {
       </table>
 
       <div className="mt-10 flex items-center justify-between">
-        <section className="flex items-center space-x-4">
+        <form
+          className="flex items-center space-x-4"
+          onSubmit={handleApplyDiscount}
+        >
           <input
             type="text"
+            name="discount"
+            ref={discountRef}
             placeholder="Mã giảm giá..."
             className="p-2 border-b-2 outline-none"
           />
-          <button className="p-2 bg-yellow-300 uppercase text-sm font-semibold">
+          <button
+            type="submit"
+            className="p-2 bg-yellow-300 uppercase text-sm font-semibold"
+          >
             Áp Dụng
           </button>
-        </section>
+          {discount && (
+            <p className="font-semibold p-4 border">
+              Mã giảm áp dụng:{" "}
+              <span className="p-2 bg-gray-200">{discount}</span>
+            </p>
+          )}
+        </form>
         <button className="p-2 bg-yellow-300 uppercase text-sm font-semibold">
           Cập nhật giỏ hàng
         </button>
@@ -107,14 +139,14 @@ const CartDetail = () => {
         <div className="mt-5 space-y-5">
           <section className="flex items-center justify-between w-[20%] pb-2 border-b-2">
             <h3 className="text-sm font-semibold uppercase">Giá</h3>
-            <p>$300</p>
+            <p>${totalPrice}</p>
           </section>
           <section className="flex items-center justify-between w-[20%] pb-2 border-b-2">
             <h3 className="text-sm font-semibold uppercase">Tổng cộng</h3>
-            <p>$300</p>
+            <p>${totalPrice}</p>
           </section>
           {user ? (
-            <Link href="/checkout">
+            <Link href={`/checkout?discount=${encodeURIComponent(discount)}`}>
               <button className="p-2 bg-yellow-300 uppercase text-sm font-semibold mt-5">
                 Thanh toán
               </button>
