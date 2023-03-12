@@ -86,7 +86,7 @@ const ProductDetail = ({
     if (user?.email) {
       const cartItem = {
         productName: product.productName,
-        banner: product.banner,
+        banner: product.banner[0],
         price: product.price,
         qty: countQty,
       };
