@@ -16,14 +16,20 @@ import {
   MdOutlineCompareArrows,
   MdOutlineSupportAgent,
 } from "react-icons/md";
-import { useRouter } from "next/navigation";
-import { base64Encode } from "../utils/encodeParams";
+import { useRouter, useSearchParams } from "next/navigation";
+import { base64Decode, base64Encode } from "../utils/encodeParams";
 
 const ToolBar = () => {
-  const [searchText, setSearchText] = useState("");
-  const [rangeValue, setRangeValue] = useState("");
-  const router = useRouter();
+  const searchParams = useSearchParams();
+  const search = base64Decode( searchParams.get("searchText") || "")
+  const range = searchParams.get("range") || "0";
 
+  const [searchText, setSearchText] = useState(search || "");
+  const [rangeValue, setRangeValue] = useState(range);
+  const router = useRouter();
+ 
+  
+  
   const handleSubmitSearch = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -46,6 +52,7 @@ const ToolBar = () => {
           type="text"
           placeholder="Tìm kiếm sản phẩm..."
           name="searchText"
+          value={search?.length > 0 ? search : searchText}
           className="p-1 outline-none"
           onChange={(e) => setSearchText(e.target.value)}
         />
@@ -175,17 +182,18 @@ const ToolBar = () => {
       <form className="w-[60%]">
         <input
           type="range"
-          id="volume"
-          name="volume"
+          id="rangeValue"
+          name="rangeValue"
           min="0"
           max="400"
           defaultValue={0}
+          value={rangeValue ? rangeValue : range }
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setRangeValue(e.target.value)
           }
         />
         <div className="flex items-center justify-between mt-5">
-          <p>0$-{rangeValue}$</p>
+          <p>0$-{rangeValue ? rangeValue : range}$</p>
           <button
             type="submit"
             className="p-2 pl-6 pr-6 bg-yellow-300"

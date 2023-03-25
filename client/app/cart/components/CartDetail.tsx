@@ -26,15 +26,24 @@ const CartDetail = () => {
   }, [message, dispatch]);
 
   useEffect(() => {
+    const total = cart.reduce(
+      (prev: any, current: any) => (prev = prev + current.total),
+      0
+    );
     if (cart) {
-      const total = cart.reduce(
-        (prev: any, current: any) => (prev = prev + current.total),
-        0
-      );
       setTotalPrice(total);
     }
-    console.log("jhehehe: ", totalPrice);
-  }, [totalPrice, dispatch]);
+    if(discount){
+      setTotalPrice((total / 100) * 90)
+    }
+  }, [totalPrice, dispatch, cart, discount]);
+
+  useEffect(() =>{
+    if(cart.length <= 0){
+      setDiscout('')
+    }
+
+  }, [cart, dispatch])
 
   const handleApplyDiscount = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -125,7 +134,7 @@ const CartDetail = () => {
           {discount && (
             <p className="font-semibold p-4 border">
               Mã giảm áp dụng:{" "}
-              <span className="p-2 bg-gray-200">{discount}</span>
+              <span className="p-2 bg-gray-200">{discount} - 20%</span>
             </p>
           )}
         </form>
