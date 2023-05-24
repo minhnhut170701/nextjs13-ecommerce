@@ -31,15 +31,15 @@ const Product = ({ data }: any) => {
   return (
     <section>
       <ListProductHome product={currentPosts} />
-      <div
-        style={{ background: "white", color: "black" }}
-        className="btn-group w-full flex justify-center items-center mt-10"
-      >
+      <div className="btn-group w-full flex justify-center items-center mt-10">
         {pageNumbers.map((number: any) => (
           <button
             key={number}
-            className="btn"
-            style={{ background: "white", color: "black", borderRadius: 0 }}
+            className={
+              currentPage === number
+                ? "btn bg-red-500 hover:bg-red-500"
+                : "btn btn-outline-secondary"
+            }
             onClick={() => paginate(number)}
           >
             {number}

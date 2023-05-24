@@ -22,7 +22,7 @@ const CartDetail = () => {
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    dispatch(getItemCart(user._id));
+    if (user) dispatch(getItemCart(user._id));
   }, [message, dispatch]);
 
   useEffect(() => {
@@ -33,17 +33,16 @@ const CartDetail = () => {
     if (cart) {
       setTotalPrice(total);
     }
-    if(discount){
-      setTotalPrice((total / 100) * 90)
+    if (discount) {
+      setTotalPrice((total / 100) * 90);
     }
   }, [totalPrice, dispatch, cart, discount]);
 
-  useEffect(() =>{
-    if(cart.length <= 0){
-      setDiscout('')
+  useEffect(() => {
+    if (cart.length <= 0) {
+      setDiscout("");
     }
-
-  }, [cart, dispatch])
+  }, [cart, dispatch]);
 
   const handleApplyDiscount = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
