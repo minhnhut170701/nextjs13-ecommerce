@@ -66,11 +66,7 @@ route.post("/login", async(req,res) =>{
           message: 'Mật khẩu hoặc tài khoản không đúng'
         })
       }
-    } else {
-      res.status(404).json({
-        message: 'Mật khẩu hoặc tài khoản không đúng'
-      })
-    }
+    } 
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
