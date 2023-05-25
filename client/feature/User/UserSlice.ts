@@ -32,7 +32,6 @@ export const register = createAsyncThunk('auth/register', async ({userData}: any
     return await UserService.registerUser(userData);
   } catch (error: any) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
-    console.log('lỗi nè: ', message)
     return thunkAPI.rejectWithValue(message);
   }
 });

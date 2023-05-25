@@ -55,9 +55,9 @@ const ListProductHome = ({ product }: any) => {
           userId: user._id,
         })
       );
-      toast.success("Đã thêm vào giỏ hàng");
+      toast.success("Đã thêm vào giỏ hàng", {autoClose: 2000});
     } else {
-      toast.warning("Vui lòng đăng nhập");
+      toast.warning("Vui lòng đăng nhập", {autoClose: 2000});
     }
   };
 

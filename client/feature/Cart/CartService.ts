@@ -16,8 +16,6 @@ const fetchItemCart = async (userId: string) =>{
 
 // add to cart
 const fetchAdd = async (cartData: CartType, userId: string) =>{
-  console.log('data nè: ', cartData)
-  console.log('user nè: ', userId)
   const respone = await fetch(`https://nextjs13-ecommerce.onrender.com/api/cart/addItem/${userId}`, {
     method: 'POST',
     headers: {

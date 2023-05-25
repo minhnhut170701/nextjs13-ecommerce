@@ -25,13 +25,10 @@ const LoginForm = () => {
   });
 
   useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
     if (isSuccess && user) {
       route.push("/");
     }
-  }, [dispatch, user, isSuccess, isError]);
+  }, [dispatch, user, isSuccess]);
 
   const { email, password } = loginUser;
   const handleChange = (e: any) => {
@@ -41,13 +38,19 @@ const LoginForm = () => {
     }));
   };
 
-  const handleSubmit = (e: any) => {
+  // toast error every error pass
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     const userData = {
       email,
       password,
-    };
-    dispatch(login({ userData: userData }));
+    }
+    dispatch(login(userData));
+    try {
+      await UserService.logInUser(userData);
+    } catch (error: any) {
+      toast.error(error.message, {autoClose: 2000});
+    }
   };
 
   return (
