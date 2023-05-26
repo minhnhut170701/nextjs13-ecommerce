@@ -58,9 +58,9 @@ const SignUpPage = () => {
       <div className="flex flex-col items-center justify-center h-full w-[70%] mx-auto">
         <aside>
           <h2 className="text-3xl font-semibold uppercase text-center">
-            Create an account
+            Tạo tài khoản
           </h2>
-          <p>Let's get started with your 30 day free trial</p>
+          <p className="text-center">Bắt đầu hành trình mua sắm của bạn</p>
         </aside>
         <form className="mt-5">
           <input
@@ -89,13 +89,13 @@ const SignUpPage = () => {
             className="mt-8 w-full p-4 bg-black rounded-xl text-white font-semibold uppercase"
             onClick={handleSubmit}
           >
-            Create Account
+            Tạo tài khoản
           </button>
         </form>
         {/* line or */}
         <div className="flex w-full items-center justify-center mt-5">
           <div className="w-[20%] h-[2px] bg-gray-200" />
-          <span className="mr-2 ml-2 text-[12px]">OR</span>
+          <span className="mr-2 ml-2 text-[12px]">Hoặc</span>
           <div className="w-[20%] h-[2px] bg-gray-200" />
         </div>
 
@@ -103,13 +103,13 @@ const SignUpPage = () => {
           <span>
             <FcGoogle />
           </span>
-          <span className="text-[12px]">Login with google</span>
+          <span className="text-[12px]">Đăng nhập với Google</span>
         </button>
 
         <aside className="mt-10">
-          <span className="mr-2">Already have an account?</span>
+          <span className="mr-2">Đã có tài khoản?</span>
           <Link href="/authenticate">
-            <span className="font-semibold">Log in</span>
+            <span className="font-semibold">Đăng nhập</span>
           </Link>
         </aside>
       </div>

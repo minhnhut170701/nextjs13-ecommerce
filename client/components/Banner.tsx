@@ -10,8 +10,8 @@ const Banner = () => {
           <h2 className='uppercase text-center text-3xl font-bold'>Shopping Lucas</h2>
           <p className='text-center'>Bạn có thể dễ dàng tìm thấy món đồ yêu thích của mình với một mức giá không thể hài lòng hơn</p>
           <section className='flex items-center justify-center space-x-10'>
-            <button className=' bg-white text-black pl-8 pr-8 p-2'>Shop</button>
-            <button className=' bg-yellow-500 text-black pl-8 pr-8 p-2'>About</button>
+            <button className=' bg-white text-black pl-8 pr-8 p-2'>Cửa hàng</button>
+            <button className=' bg-yellow-500 text-black pl-8 pr-8 p-2'>Về chúng tôi</button>
           </section>
         </div>
       </section>

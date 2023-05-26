@@ -58,9 +58,9 @@ const LoginForm = () => {
       <ToastContainer />
       <aside>
         <h2 className="text-3xl font-semibold uppercase text-center">
-          Wellcome, You
+          Chào mừng bạn
         </h2>
-        <p>Wellcome back! Please enter you detail</p>
+        <p className="text-center">Vui lòng nhập thông tin dưới đây</p>
       </aside>
       <form className="mt-5">
         <input
@@ -82,22 +82,22 @@ const LoginForm = () => {
         <section className="mt-6 flex w-full justify-between items-center">
           <div className="flex items-center space-x-2">
             <input type="checkbox" name="remember" />
-            <label htmlFor="remember">Remember me</label>
+            <label htmlFor="remember">Nhớ mật khẩu</label>
           </div>
-          <button className="font-semibold underline">Forgot password</button>
+          <button className="font-semibold underline">Quên mật khẩu</button>
         </section>
         <button
           type="submit"
           className="mt-8 w-full p-4 bg-black rounded-xl text-white font-semibold uppercase"
           onClick={handleSubmit}
         >
-          Login
+          Đăng nhập
         </button>
       </form>
       {/* line or */}
       <div className="flex w-full items-center justify-center mt-5">
         <div className="w-[20%] h-[2px] bg-gray-200" />
-        <span className="mr-2 ml-2 text-[12px]">OR</span>
+        <span className="mr-2 ml-2 text-[12px]">Hoặc</span>
         <div className="w-[20%] h-[2px] bg-gray-200" />
       </div>
 
@@ -105,13 +105,13 @@ const LoginForm = () => {
         <span>
           <FcGoogle />
         </span>
-        <span className="text-[12px]">Login with google</span>
+        <span className="text-[12px]">Đăng nhập với google</span>
       </button>
 
       <aside className="mt-10">
-        <span className="mr-2">Don't have an account?</span>
+        <span className="mr-2">Bạn chưa có tài khoản?</span>
         <Link href="/authenticate/signup">
-          <span className="font-semibold">Sign up for here</span>
+          <span className="font-semibold">Đăng ký ở đây</span>
         </Link>
       </aside>
     </div>

@@ -65,7 +65,7 @@ const ListProductHome = ({ product }: any) => {
     <section className="w-full">
       <h2 className="p-4 text-xl font-bold uppercase">Hot</h2>
 
-      <div className="grid grid-cols-3 gap-10">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-10">
         <>
           {product.map((product: any) => (
             <div key={product._id} className="w-full">
@@ -83,7 +83,7 @@ const ListProductHome = ({ product }: any) => {
                   />
                 </Link>
                 <button
-                  className="bg-yellow-300 p-2 pl-4 pr-4 uppercase text-sm absolute bottom-[7px] left-[25%] right-[25%] cart-product z-20 "
+                  className="bg-yellow-300 p-2 pl-4 pr-4 uppercase text-sm absolute bottom-[7px] left-[20%] lg:left-[30%]  cart-product z-20 "
                   onClick={() => handleAddToCart(product)}
                 >
                   Add to cart
