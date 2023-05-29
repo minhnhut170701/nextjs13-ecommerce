@@ -73,15 +73,15 @@ const Header = () => {
       </h1>
       <nav className="w-[80%] flex justify-between items-center relative">
         <ul className="flex space-x-10 items-center">
-          <li>Home</li>
-          <li>Shop</li>
-          <li>About</li>
-          <li>Contact</li>
+          <li>Trang chủ</li>
+          <li>Cửa hàng</li>
+          <li>Về chúng tôi</li>
+          <li>Liên hệ</li>
         </ul>
         <ul className="flex space-x-7 items-center">
           <li className="flex space-x-2 items-center">
             <VscSearch />
-            <span>Search</span>
+            <span>Tìm kiếm</span>
           </li>
           <li>
             {userName ? (
@@ -104,7 +104,7 @@ const Header = () => {
                 className="flex space-x-2 items-center"
               >
                 <FiUser />
-                <span>Account</span>
+                <span>Tài khoản</span>
               </Link>
             )}
           </li>

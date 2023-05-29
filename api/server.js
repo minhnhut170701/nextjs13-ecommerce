@@ -7,6 +7,7 @@ import productRoute from "./routes/ProductRoute.js";
 import userRoute from "./routes/UserRoute.js";
 import commentRoute from "./routes/CommentRoute.js";
 import cartRoute from "./routes/CartRoute.js";
+import orderRoute from "./routes/OrderRoute.js";
 
 dotenv.config();
 
@@ -31,6 +32,7 @@ app.use("/api/user", userRoute);
 app.use("/api/product", productRoute);
 app.use("/api/comment", commentRoute);
 app.use("/api/cart", cartRoute);
+app.use("/api/order", orderRoute);
 
 connectMongo();
 
