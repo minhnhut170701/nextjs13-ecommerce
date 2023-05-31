@@ -15,7 +15,7 @@ route.get("/", async (req, res) => {
   }
 });
 
-// add comment
+// add order
 route.post("/add", async (req, res) => {
   const { userName, productName, price, qty, address, total, discount} = req.body;
   try {
@@ -33,5 +33,24 @@ route.post("/add", async (req, res) => {
     console.log("Lỗi server: ", error);
   }
 });
+
+// delete order
+route.delete("/remove/:orderId", async(req, res) =>{
+  try {
+    const orderDelete = await Order.findById(req.params.orderId)
+    if(orderDelete){
+      const rem = await Order.deleteOne({_id: req.params.orderId})
+      if(rem){
+        res.status(200).send("Xóa sản phẩm thành công")
+      }else{
+        res.status(400).send("không thể xóa sản phẩm")
+      }
+    }else{
+      res.status(404).send("không tìm thấy sản phẩm")
+    }
+  } catch (error) {
+    res.status(500).send("Lỗi api")
+  }
+})
 
 export default route;
