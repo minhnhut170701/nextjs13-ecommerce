@@ -18,6 +18,7 @@ route.get("/", async (req, res) => {
 // add order
 route.post("/add", async (req, res) => {
   const { userName, discount, cart } = req.body;
+  console.log("body nè: ", req.body);
   try {
     const order = new Order({ userName, discount, cart });
 
