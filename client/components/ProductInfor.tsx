@@ -47,7 +47,11 @@ const ProductInfor = ({
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (!checkedCount) {
-      toast.warning("Vui lòng đánh giá sản phẩm trước khi bình luận.");
+      toast.warning("Vui lòng đánh giá sản phẩm trước khi bình luận.", {autoClose: 2000});
+      return;
+    }
+    if(!user && !user?.username){
+      toast.warning("Vui lòng đăng nhập trước khi đánh giá", {autoClose: 2000})
       return;
     }
     const data = {
@@ -87,7 +91,7 @@ const ProductInfor = ({
                       : "bg-transparent hover:bg-yellow-300 w-full h-full text-sm font-semibold uppercase"
                   }
                 >
-                  Description
+                  Mô tả
                 </button>
               )}
             </Tab>
@@ -101,7 +105,7 @@ const ProductInfor = ({
                       : "bg-transparent hover:bg-yellow-300 w-full h-full text-sm font-semibold uppercase"
                   }
                 >
-                  Additional information
+                  Thông tin sản phẩm
                 </button>
               )}
             </Tab>
@@ -115,7 +119,7 @@ const ProductInfor = ({
                       : "bg-transparent hover:bg-yellow-300 w-full h-full text-sm font-semibold uppercase"
                   }
                 >
-                  Review
+                  Đánh giá
                 </button>
               )}
             </Tab>
