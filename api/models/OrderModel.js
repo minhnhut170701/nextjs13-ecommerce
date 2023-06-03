@@ -13,6 +13,10 @@ const OrderSchema = new mongoose.Schema(
       type: Array,
       require: [true, "khong có giá s làm"],
     },
+    cartId: {
+      type: String,
+      require: [true, "phai co id"],
+    },
   },
   {
     timestamps: true,

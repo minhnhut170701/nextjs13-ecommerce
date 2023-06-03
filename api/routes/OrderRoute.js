@@ -17,17 +17,21 @@ route.get("/", async (req, res) => {
 
 // add order
 route.post("/add", async (req, res) => {
-  const { userName, discount, cart } = req.body;
-  console.log("body nè: ", req.body);
+  const { userName, discount, cart, cartId } = req.body;
   try {
-    const order = new Order({ userName, discount, cart });
+    const orderHave = Order.findOne({ cartId: cartId });
+    if (orderHave) {
+      res.status(400).send("đã có order");
+    } else {
+      const order = new Order({ userName, discount, cart, cartId });
 
-    if (order) {
-      await order.save();
-      res.status(200).json({
-        success: true,
-        data: order,
-      });
+      if (order) {
+        await order.save();
+        res.status(200).json({
+          success: true,
+          data: order,
+        });
+      }
     }
   } catch (error) {
     res.status(500);
