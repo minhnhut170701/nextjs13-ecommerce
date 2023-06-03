@@ -23,7 +23,7 @@ const CartDetail = () => {
 
   useEffect(() => {
     if (user) dispatch(getItemCart(user._id));
-  }, [message, dispatch]);
+  }, [message]);
 
   useEffect(() => {
     const total = cart.reduce(

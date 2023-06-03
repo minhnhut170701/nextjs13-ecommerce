@@ -22,7 +22,7 @@ const PaymentInfo = () => {
       },
       body: JSON.stringify({
         cart: cart,
-        discount: decodeURIComponent(searchParams.get("discount")) || "",
+        // discount: decodeURIComponent(searchParams.get("discount")) || "",
       }),
     });
 
@@ -33,8 +33,6 @@ const PaymentInfo = () => {
     toast.loading("Redirecting...");
 
     stripe.redirectToCheckout({ sessionId: data.id });
-
-    dispatch(cleanItemCart(user._id));
   };
   return (
     <div className="border w-[40%] bg-white rounded-lg p-6">

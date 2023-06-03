@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { addToCart } from "../feature/Cart/CartSlice";
+import { addToCart, getItemCart } from "../feature/Cart/CartSlice";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useKeenSlider } from "keen-slider/react";
@@ -78,9 +78,14 @@ const ProductDetail = ({
   const route = useRouter();
   const [countQty, setCountQty] = useState(1);
   const { user } = useSelector((state: any) => state.user);
+  const { message } = useSelector((state: any) => state.cart);
   useEffect(() => {
     setCountQty(countQty <= 0 ? 1 : countQty);
   }, [countQty]);
+
+  useEffect(() => {
+    dispatch(getItemCart(user._id));
+  }, [message]);
 
   const handleAddToCart = (product: any, countQty: number) => {
     if (user?.email) {

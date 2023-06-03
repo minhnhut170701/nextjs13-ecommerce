@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import {
   decrementItemCart,
-  getItemCart,
   incrementItemCart,
 } from "../../../feature/Cart/CartSlice";
 
@@ -17,11 +16,6 @@ const ProductCheck = () => {
   const { user } = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
   const route = useRouter();
-  useEffect(() => {
-    if (user) {
-      dispatch(getItemCart(user._id));
-    }
-  }, [cart]);
 
   useEffect(() => {
     if (!user) {

@@ -27,13 +27,33 @@ const Header = () => {
     }
   };
 
-  useEffect(() => {
-    if (user) {
-      if (searchParams.get("success") === "true") {
-        dispatch(cleanItemCart(user._id));
+  const addToOrder = async () => {
+    try {
+      if (cart.length > 0) {
+        const orderAdd = await fetch(
+          "https://nextjs13-ecommerce.onrender.com/api/order/add",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userName: user.name,
+              discount: decodeURIComponent(searchParams.get("discount")) || "",
+              cart: cart,
+              cartId: cart._id,
+            }),
+          }
+        );
+        if (orderAdd.ok) {
+          dispatch(cleanItemCart(user._id));
+          return;
+        }
       }
+    } catch (error) {
+      console.log("lỗi api");
     }
-  }, []);
+  };
 
   useEffect(() => {
     window.addEventListener("scroll", handleWindowResize);
@@ -58,9 +78,12 @@ const Header = () => {
       dispatch(getItemCart(user._id));
       if (cart.length >= 0) {
         setNotifiItem(cart.length);
+        if (searchParams.get("success") === "true") {
+          addToOrder();
+        }
       }
     }
-  }, [cart, dispatch]);
+  }, [cart.length]);
 
   return (
     <header

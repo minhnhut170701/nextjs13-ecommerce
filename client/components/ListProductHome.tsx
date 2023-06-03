@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { BsFillCartFill } from "react-icons/bs";
 import "../styles/custom.css";
@@ -39,7 +39,9 @@ type ProductDetailProps = {
 const ListProductHome = ({ product }: any) => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const [isAddCart, setIsAddCart] = useState(false);
   const { user } = useSelector((state: any) => state.user);
+  const { cart, message } = useSelector((state: any) => state.cart);
 
   const handleAddToCart = (product: any) => {
     if (user?.email) {
@@ -55,11 +57,17 @@ const ListProductHome = ({ product }: any) => {
           userId: user._id,
         })
       );
-      toast.success("Đã thêm vào giỏ hàng", {autoClose: 2000});
+
+      setIsAddCart(!isAddCart);
+      toast.success("Đã thêm vào giỏ hàng", { autoClose: 2000 });
     } else {
-      toast.warning("Vui lòng đăng nhập", {autoClose: 2000});
+      toast.warning("Vui lòng đăng nhập", { autoClose: 2000 });
     }
   };
+
+  useEffect(() => {
+    dispatch(getItemCart(user._id));
+  }, [message]);
 
   return (
     <section className="w-full">

@@ -24,7 +24,9 @@ const fetchAdd = async (cartData: CartType, userId: string) =>{
     body: JSON.stringify(cartData),
   })
   const jsonen = await respone.json()
+
   return jsonen
+  
 }
 
 // delete item cart
