@@ -19,7 +19,7 @@ route.get("/", async (req, res) => {
 route.post("/add", async (req, res) => {
   const { userName, discount, cart, cartId } = req.body;
   try {
-    const orderHave = Order.findOne({ cartId: cartId });
+    const orderHave = await Order.findOne({ cartId: cartId });
     if (orderHave) {
       res.status(400).send("đã có order");
     } else {
