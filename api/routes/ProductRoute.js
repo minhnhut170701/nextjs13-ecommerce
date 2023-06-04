@@ -16,18 +16,19 @@ route.get("/", async (req, res) => {
   }
 });
 
-// // Get all product
-// route.get("/getSlug", async (req, res) => {
-//   try {
-//     const products = await Product.find({slug: productSlug});
-//     if (products) {
-//       res.status(200).json(products);
-//     }
-//   } catch (error) {
-//     res.status(500);
-//     throw new Error("không thể tạo sản phẩm");
-//   }
-// });
+// remove product
+route.delete("/remove/:productId", async (req, res) => {
+  try {
+    const product = await Product.findByIdAndDelete(req.params.productId);
+    if (product) {
+      res.status(200).send("Xóa sản phẩm thành công");
+    } else {
+      res.status(404).send("Không tìm thấy sản phẩm");
+    }
+  } catch (error) {
+    res.status(500).send("Lỗi api");
+  }
+});
 
 // find one a product
 route.get("/detail/:productSlug/", async (req, res) => {

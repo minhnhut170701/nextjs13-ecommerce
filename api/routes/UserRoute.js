@@ -81,4 +81,18 @@ route.get("/all", async (req, res) => {
   }
 });
 
+// delete user
+route.delete("/remove/:userId", async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.userId);
+    if (user) {
+      res.status(200).send("Xóa người dùng thành công");
+    } else {
+      res.status(404).send("Không tìm thấy người dùng");
+    }
+  } catch (error) {
+    res.status(500).send("Lỗi api");
+  }
+});
+
 export default route;
