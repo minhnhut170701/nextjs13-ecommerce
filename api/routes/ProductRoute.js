@@ -118,6 +118,7 @@ route.post("/create", async (req, res) => {
     passForProduct,
     infor,
     description,
+    photo
   } = req.body;
 
   const photoUrl = await cloudinary.uploader.upload(photo);
