@@ -1,7 +1,14 @@
 import express from "express";
 import Product from "../models/ProductModel.js";
+import { v2 as cloudinary } from 'cloudinary';
 
 const route = express.Router();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // Get all product
 route.get("/", async (req, res) => {
@@ -106,18 +113,20 @@ route.post("/create", async (req, res) => {
   const {
     productName,
     price,
-    banner,
     category,
     tag,
     passForProduct,
     infor,
     description,
   } = req.body;
+
+  const photoUrl = await cloudinary.uploader.upload(photo);
+
   try {
     const newProduct = await Product.create({
       productName,
       price,
-      banner,
+      banner: [photoUrl.url],
       category,
       tag,
       passForProduct,
@@ -132,5 +141,9 @@ route.post("/create", async (req, res) => {
     throw new Error("không thể tạo sản phẩm");
   }
 });
+
+
+
+
 
 export default route;
