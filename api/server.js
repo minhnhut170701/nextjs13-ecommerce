@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cros from "cors";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
+import { v2 as cloudinary } from 'cloudinary';
 import productRoute from "./routes/ProductRoute.js";
 import userRoute from "./routes/UserRoute.js";
 import commentRoute from "./routes/CommentRoute.js";
@@ -23,10 +24,16 @@ const connectMongo = async () => {
   }
 };
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 const app = express();
 app.use(cros());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 app.use("/api/user", userRoute);
 app.use("/api/product", productRoute);

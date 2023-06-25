@@ -4,12 +4,6 @@ import { v2 as cloudinary } from 'cloudinary';
 
 const route = express.Router();
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
 // Get all product
 route.get("/", async (req, res) => {
   try {
@@ -71,7 +65,6 @@ route.get("/category/:cateName", async (req, res) => {
     }
   } catch (error) {
     res.status(500);
-    console.log("lỗi nè: ", error);
   }
 });
 
@@ -121,22 +114,24 @@ route.post("/create", async (req, res) => {
     photo
   } = req.body;
 
-  const photoUrl = await cloudinary.uploader.upload(photo);
-
   try {
-    const newProduct = await Product.create({
-      productName,
-      price,
-      banner: [photoUrl.url],
-      category,
-      tag,
-      passForProduct,
-      infor,
-      description,
-    });
-    if (newProduct) {
-      res.status(200).json(newProduct);
+    const photoUrl = await cloudinary.uploader.upload(photo);
+    if(photoUrl){
+      const newProduct = await Product.create({
+        productName,
+        price,
+        banner: [photoUrl.url],
+        category,
+        tag,
+        passForProduct,
+        infor,
+        description,
+      });
+      if (newProduct) {
+        res.status(200).json(newProduct);
+      }
     }
+    
   } catch (error) {
     res.status(500);
     throw new Error("không thể tạo sản phẩm");
