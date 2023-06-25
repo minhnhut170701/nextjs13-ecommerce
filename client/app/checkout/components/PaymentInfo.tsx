@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { cleanItemCart } from "../../../feature/Cart/CartSlice";
 import getStripe from "../../../lib/getStripe";
+import { setSuccess } from "../../../feature/Order/OrderSlice";
 
 const PaymentInfo = () => {
   const searchParams: any = useSearchParams();
@@ -33,6 +34,8 @@ const PaymentInfo = () => {
     toast.loading("Redirecting...");
 
     stripe.redirectToCheckout({ sessionId: data.id });
+
+    dispatch(setSuccess(true))
   };
   return (
     <div className="border w-[40%] bg-white rounded-lg p-6">

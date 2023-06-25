@@ -10,6 +10,7 @@ import { toast, ToastContainer } from "react-toastify";
 import Image from "next/image";
 import { cleanItemCart, getItemCart } from "../feature/Cart/CartSlice";
 
+
 const Header = () => {
   const searchParams: any = useSearchParams();
   const [headerFixed, setHeaderFixed] = useState("relative");
@@ -45,8 +46,10 @@ const Header = () => {
             }),
           }
         );
+     
         if (orderAdd.ok) {
           dispatch(cleanItemCart(user._id));
+          window.history.replaceState(null, '', '/')
           return;
         }
       }
@@ -76,14 +79,16 @@ const Header = () => {
   useEffect(() => {
     if (user) {
       dispatch(getItemCart(user._id));
-      if (cart.length >= 0) {
+      if (cart.length >= 0 ) {
         setNotifiItem(cart.length);
-        if (searchParams.get("success") === "true") {
+        if (searchParams.get("success") == "true") {
           addToOrder();
         }
       }
     }
-  }, [cart.length]);
+  }, [cart.length, searchParams.get("success")]);
+
+ 
 
   return (
     <header
