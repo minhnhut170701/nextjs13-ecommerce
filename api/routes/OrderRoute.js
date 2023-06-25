@@ -21,10 +21,7 @@ route.post("/add", async (req, res) => {
   try {
     const orderHave = await Order.findOne({ cartId: cartId });
     if (orderHave) {
-      res.status(400).send("đã có order");
-    } else {
       const order = new Order({ userName, discount, cart, cartId });
-
       if (order) {
         await order.save();
         res.status(200).json({
