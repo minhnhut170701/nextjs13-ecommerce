@@ -66,8 +66,10 @@ const ListProductHome = ({ product }: any) => {
   };
 
   useEffect(() => {
-    dispatch(getItemCart(user._id));
-  }, [message]);
+    if(user){
+      dispatch(getItemCart(user._id));
+    }
+  }, [user,message]);
 
   return (
     <section className="w-full">

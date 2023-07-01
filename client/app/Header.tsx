@@ -86,7 +86,7 @@ const Header = () => {
         }
       }
     }
-  }, [cart.length, searchParams.get("success")]);
+  }, [user,cart.length, searchParams.get("success")]);
 
  
 
@@ -112,19 +112,19 @@ const Header = () => {
             <span>Tìm kiếm</span>
           </li>
           <li>
-            {userName ? (
+            {user ? (
               <button
                 className="flex space-x-2 items-center"
                 onClick={handleLogout}
               >
                 <Image
                   src={userImg}
-                  alt={userName}
+                  alt={user.name}
                   width={30}
                   height={30}
                   className="w-[30x] h-[30px] rounded-full"
                 />
-                <span>{userName}</span>
+                <span>{user.name}</span>
               </button>
             ) : (
               <Link

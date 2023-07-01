@@ -29,7 +29,6 @@ const logInUser = async (userData: any) =>{
       headers: {
         'Content-Type': 'application/json',
       },
-      next: {revalidate: 0},
       body: JSON.stringify(userData),
     });
     if (!response.ok) {

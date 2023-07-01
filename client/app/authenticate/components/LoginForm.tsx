@@ -4,7 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { login } from "../../../feature/User/UserSlice";
+import { innerLogin } from "../../../feature/User/UserSlice";
 import { toast, ToastContainer } from "react-toastify";
 import { UserService } from "../../../feature/User/UserService";
 
@@ -25,10 +25,13 @@ const LoginForm = () => {
   });
 
   useEffect(() => {
-    if (isSuccess && user) {
+    if (user && isSuccess) {
       route.push("/");
     }
-  }, [dispatch, user, isSuccess]);
+    if(isError){
+      toast.error(message, {autoClose: 2000});
+    }
+  }, [dispatch,user, isSuccess, isError]);
 
   const { email, password } = loginUser;
   const handleChange = (e: any) => {
@@ -45,12 +48,7 @@ const LoginForm = () => {
       email,
       password,
     }
-    dispatch(login(userData));
-    try {
-      await UserService.logInUser(userData);
-    } catch (error: any) {
-      toast.error(error.message, {autoClose: 2000});
-    }
+    dispatch(innerLogin({userData}))
   };
 
   return (

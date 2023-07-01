@@ -84,8 +84,10 @@ const ProductDetail = ({
   }, [countQty]);
 
   useEffect(() => {
-    dispatch(getItemCart(user._id));
-  }, [message]);
+    if(user){
+      dispatch(getItemCart(user._id));
+    }
+  }, [user,message]);
 
   const handleAddToCart = (product: any, countQty: number) => {
     if (user?.email) {
