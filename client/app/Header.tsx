@@ -71,8 +71,8 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if (user?.name) {
-      setUserName(user?.name);
+    if (user) {
+      setUserName(user.name);
     }
   }, [user]);
 

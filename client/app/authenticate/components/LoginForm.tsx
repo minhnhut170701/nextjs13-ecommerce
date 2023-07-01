@@ -62,7 +62,7 @@ const LoginForm = () => {
         </h2>
         <p className="text-center">Vui lòng nhập thông tin dưới đây</p>
       </aside>
-      <form className="mt-5">
+      <form className="mt-5" onSubmit={handleSubmit}>
         <input
           type="email"
           className="p-2 border-b w-full outline-none"
@@ -89,7 +89,6 @@ const LoginForm = () => {
         <button
           type="submit"
           className="mt-8 w-full p-4 bg-black rounded-xl text-white font-semibold uppercase"
-          onClick={handleSubmit}
         >
           Đăng nhập
         </button>
