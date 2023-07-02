@@ -29,7 +29,7 @@ const LoginForm = () => {
       route.push("/");
     }
     if(isError){
-      toast.error(message, {autoClose: 2000});
+      toast.error(message, {autoClose: 1500});
     }
   }, [dispatch,user, isSuccess, isError]);
 

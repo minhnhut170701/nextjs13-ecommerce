@@ -21,49 +21,55 @@ import { base64Decode, base64Encode } from "../utils/encodeParams";
 
 const ToolBar = () => {
   const searchParams = useSearchParams();
-  const search = base64Decode( searchParams.get("searchText") || "")
-  const range = searchParams.get("range") || "0";
+  const search = base64Decode(searchParams.get("searchText") || '')
+  const range = searchParams.get("range");
 
-  const [searchText, setSearchText] = useState(search || "");
-  const [rangeValue, setRangeValue] = useState(range);
+  const [searchText, setSearchText] = useState(search || '');
+  const [rangeValue, setRangeValue] = useState(range || '300');
   const router = useRouter();
  
-  
-  
-  const handleSubmitSearch = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  // useEffect(() =>{
+  //   if(searchParams.get("searchText")){
+  //     setSearchText(search)
+  //   }
+
+  //   if(searchParams.get("range")){
+  //     setRangeValue(range)
+  //   }else{
+  //     setRangeValue('300')
+  //   }
+  // }, [searchParams])
+  const handleChangSearch = (e:  React.ChangeEvent<HTMLInputElement>) =>{
+      setSearchText(e.target.value)
+    console.log('change nè: ', e.target.value)
+
+  }
+
+  const handleSubmitSearch = (e: any) => {
     e.preventDefault();
     const encoded = base64Encode(searchText);
     router.push(`/productlist?searchText=${encoded}&range=${rangeValue}`);
   };
-  const handleSubmitRange = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-    const encoded = base64Encode(searchText);
-    router.push(`/productlist?searchText=${encoded}&range=${rangeValue}`);
-  };
+
 
   return (
     <div className="w-full">
-      <form className="p-2 border w-[250px] mt-5">
+      <form className="p-2 border w-[250px] mt-5" onSubmit={handleSubmitSearch}>
         <input
           type="text"
           placeholder="Tìm kiếm sản phẩm..."
           name="searchText"
-          value={search?.length > 0 ? search : searchText}
-          className="p-1 outline-none"
-          onChange={(e) => setSearchText(e.target.value)}
+          value={searchText}
+          className="p-1 outline-none border-b-2"
+          onChange={(e) =>  handleChangSearch(e)}
         />
         <button
           className="p-3"
-          type="submit"
+          type="button"
           onClick={(e) => handleSubmitSearch(e)}
         >
           <AiOutlineSearch />
         </button>
-      </form>
       <h2 className="p-4 text-xl font-bold uppercase">Product</h2>
       <ul className="space-y-4">
         <li>
@@ -179,7 +185,7 @@ const ToolBar = () => {
       </ul>
 
       <h2 className="p-4 text-xl font-bold uppercase mt-5">Lọc theo giá</h2>
-      <form className="w-[60%]">
+      
         <input
           type="range"
           id="rangeValue"
@@ -197,7 +203,6 @@ const ToolBar = () => {
           <button
             type="submit"
             className="p-2 pl-6 pr-6 bg-yellow-300"
-            onClick={handleSubmitRange}
           >
             Lọc
           </button>

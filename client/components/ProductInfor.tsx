@@ -47,11 +47,11 @@ const ProductInfor = ({
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (!checkedCount) {
-      toast.warning("Vui lòng đánh giá sản phẩm trước khi bình luận.", {autoClose: 2000});
+      toast.warning("Vui lòng đánh giá sản phẩm trước khi bình luận.", {autoClose: 1500});
       return;
     }
     if(!user && !user?.username){
-      toast.warning("Vui lòng đăng nhập trước khi đánh giá", {autoClose: 2000})
+      toast.warning("Vui lòng đăng nhập trước khi đánh giá", {autoClose: 1500})
       return;
     }
     const data = {

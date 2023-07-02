@@ -59,9 +59,9 @@ const ListProductHome = ({ product }: any) => {
       );
 
       setIsAddCart(!isAddCart);
-      toast.success("Đã thêm vào giỏ hàng", { autoClose: 2000 });
+      toast.success("Đã thêm vào giỏ hàng", { autoClose: 1500 });
     } else {
-      toast.warning("Vui lòng đăng nhập", { autoClose: 2000 });
+      toast.warning("Vui lòng đăng nhập", { autoClose: 1500 });
     }
   };
 
