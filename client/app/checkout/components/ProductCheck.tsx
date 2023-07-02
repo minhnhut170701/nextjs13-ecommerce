@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import {
   decrementItemCart,
+  getItemCart,
   incrementItemCart,
 } from "../../../feature/Cart/CartSlice";
 
@@ -22,6 +23,12 @@ const ProductCheck = () => {
       route.push("/");
     }
   }, []);
+
+  useEffect(() => {
+    if(user){
+      dispatch(getItemCart(user._id));
+    }
+  }, [user,cart]);
 
   return (
     <div className="w-[60%] bg-white p-6 rounded-lg shadow-lg overflow-y-scroll h-[600px]">

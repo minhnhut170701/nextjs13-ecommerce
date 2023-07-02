@@ -14,7 +14,7 @@ import {
 } from "../../../feature/Cart/CartSlice";
 
 const CartDetail = () => {
-  const { cart, message } = useSelector((state: any) => state.cart);
+  const { cart, message , isSuccess} = useSelector((state: any) => state.cart);
   const { user } = useSelector((state: any) => state.user);
   const [discount, setDiscout] = useState("");
   const discountRef: any = useRef();
@@ -22,8 +22,10 @@ const CartDetail = () => {
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    if (user) dispatch(getItemCart(user._id));
-  }, [message]);
+    if(user){
+      dispatch(getItemCart(user._id));
+    }
+  }, [user,cart, isSuccess]);
 
   useEffect(() => {
     const total = cart.reduce(
