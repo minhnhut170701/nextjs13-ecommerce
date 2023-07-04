@@ -25,7 +25,7 @@ const ToolBar = () => {
   const range = searchParams.get("range");
 
   const [searchText, setSearchText] = useState(search || '');
-  const [rangeValue, setRangeValue] = useState(range || '300');
+  const [rangeValue, setRangeValue] = useState(range || 300);
   const router = useRouter();
  
   // useEffect(() =>{
@@ -192,8 +192,7 @@ const ToolBar = () => {
           name="rangeValue"
           min="0"
           max="400"
-          defaultValue={0}
-          value={rangeValue ? rangeValue : range }
+          defaultValue={rangeValue ?? range }
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setRangeValue(e.target.value)
           }
