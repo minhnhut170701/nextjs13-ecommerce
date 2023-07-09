@@ -199,13 +199,12 @@ const ProductInfor = ({
 
             <form className="space-y-3 mt-10" onSubmit={handleSubmit}>
               <h4 className="text-lg font-semibold uppercase mt-5">
-                POST A COMMENT
+                Đánh giá
               </h4>
               <p>
-                Your email address will not be published. Required fields are
-                marked *
+                Địa chỉ email của bạn sẽ không được công bố *
               </p>
-              <p>Your Rating</p>
+              <p>Đánh giá của bạn</p>
               <div className="rating">
                 <input
                   type="radio"

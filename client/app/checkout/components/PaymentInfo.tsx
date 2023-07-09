@@ -1,6 +1,6 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { cleanItemCart } from "../../../feature/Cart/CartSlice";
@@ -12,7 +12,17 @@ const PaymentInfo = () => {
   const { cart } = useSelector((state: any) => state.cart);
   const { user } = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
-  let totalPrice: number = 0;
+  const [totalPrice, setTotalPrice] = useState(0)
+
+  useEffect(() => {
+    const total = cart.reduce(
+      (prev: any, current: any) => (prev = prev + current.total),
+      0
+    );
+    if (cart) {
+      setTotalPrice(total);
+    }
+  }, [totalPrice, dispatch, cart]);
 
   const handleCheckout = async () => {
     const stripe = await getStripe();
@@ -74,12 +84,12 @@ const PaymentInfo = () => {
         </aside>
         <aside className="flex w-full justify-between items-center">
           <span className="text-gray-400">Tổng cộng</span>
-          <span>$40</span>
+          <span>${totalPrice}</span>
         </aside>
 
         <aside className="flex w-full justify-between items-center">
           <span className="text-lg font-semibold">Tổng</span>
-          <span className="text-lg font-semibold">$40</span>
+          <span className="text-lg font-semibold">${totalPrice}</span>
         </aside>
       </div>
       <div className="w-[90%] mx-auto flex space-x-2 items-center justify-center">

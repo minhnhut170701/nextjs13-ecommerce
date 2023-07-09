@@ -96,7 +96,7 @@ const ListProductHome = ({ product }: any) => {
                   className="bg-yellow-300 p-2 pl-4 pr-4 uppercase text-sm absolute bottom-[7px] left-[20%] lg:left-[30%]  cart-product z-20 "
                   onClick={() => handleAddToCart(product)}
                 >
-                  Add to cart
+                  Thêm vào giỏ
                 </button>
               </div>
               <div className="flex justify-between w-full mt-5">

@@ -28,21 +28,8 @@ const ToolBar = () => {
   const [rangeValue, setRangeValue] = useState(range || 300);
   const router = useRouter();
  
-  // useEffect(() =>{
-  //   if(searchParams.get("searchText")){
-  //     setSearchText(search)
-  //   }
-
-  //   if(searchParams.get("range")){
-  //     setRangeValue(range)
-  //   }else{
-  //     setRangeValue('300')
-  //   }
-  // }, [searchParams])
   const handleChangSearch = (e:  React.ChangeEvent<HTMLInputElement>) =>{
       setSearchText(e.target.value)
-    console.log('change nè: ', e.target.value)
-
   }
 
   const handleSubmitSearch = (e: any) => {
@@ -70,7 +57,7 @@ const ToolBar = () => {
         >
           <AiOutlineSearch />
         </button>
-      <h2 className="p-4 text-xl font-bold uppercase">Product</h2>
+      <h2 className="p-4 text-xl font-bold uppercase">Danh Mục</h2>
       <ul className="space-y-4">
         <li>
           <Link

@@ -57,6 +57,7 @@ async function getProduct() {
 const ProductDetailPage = async ({ params }: any) => {
   const { productSlug } = params;
   const product = await getProductDetail(productSlug);
+  const listProduct = await getProduct()
 
   if (!product) {
     notFound();
@@ -91,7 +92,7 @@ const ProductDetailPage = async ({ params }: any) => {
         Sản phẩm liên quan
       </h2>
       <div className="mt-5 flex justify-around space-x-2">
-        <RelatedProduct />
+        <RelatedProduct data={listProduct} />
       </div>
     </div>
   );

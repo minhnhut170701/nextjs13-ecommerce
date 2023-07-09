@@ -1,9 +1,6 @@
 import React from "react";
 import Image, { StaticImageData } from "next/image";
-import img1 from "../images/product/product-1.jpg";
-import img2 from "../images/product/product-2.jpg";
-import img3 from "../images/product/product-3.jpg";
-import img4 from "../images/product/product-4.jpg";
+import Link from "next/link";
 
 interface Product {
   id: string;
@@ -12,30 +9,23 @@ interface Product {
   price: number;
 }
 
-function RelatedProduct() {
-  const data: Product[] = [
-    { id: "1", img: img1, name: "product1", price: 300 },
-    { id: "2", img: img2, name: "product1", price: 300 },
-    { id: "3", img: img3, name: "product1", price: 300 },
-    { id: "4", img: img4, name: "product1", price: 300 },
-  ];
-
+function RelatedProduct({data}: any) {
   return (
     <>
-      {data.map((item) => (
-        <div key={item.id}>
+      {data.slice(0,5).map((item: any) => (
+        <Link href={`product/${item.slug || "ao-thun-nam-thoi-trang"}`} key={item._id}>
           <Image
-            src={item.img}
-            alt={item.name}
+            src={item.banner[0]}
+            alt={item.productName}
             width={300}
             height={300}
             className="w-[300px] h-[300px]"
           />
           <div className="flex items-center mt-3 justify-between">
-            <h3 className="text-sm font-semibold uppercase">{item.name}</h3>
+            <h3 className="text-sm font-semibold uppercase">{item.productName}</h3>
             <p>${item.price}</p>
           </div>
-        </div>
+        </Link>
       ))}
     </>
   );

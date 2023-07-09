@@ -236,7 +236,7 @@ const ProductDetail = ({
               className="uppercase p-4 font-semibold bg-yellow-300"
               onClick={() => handleAddToCart(productData, countQty)}
             >
-              Add to cart
+              Thêm vào giỏ
             </button>
           </div>
           <article className="space-y-3">
