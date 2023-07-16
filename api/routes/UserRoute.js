@@ -18,6 +18,13 @@ route.post("/register", async (req, res) => {
     if (!userName || !email || !password) {
       throw new Error("Nhập đầy đủ thông tin vào");
     }
+    const hasUser = await User.findOne({email: email})
+
+    if(hasUser){
+      res.status(400).send("Đã tồn tại user")
+      throw new Error("Đã có user");
+    }
+
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
