@@ -3,20 +3,28 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.NEXT_SECRET_STRIPE_KEY);
 
 export default async function handler(req, res) {
-  const { cart } = req.body;
-  // const coupon = await stripe.coupons.retrieve(`${discount}`);
+  const { cart, discount } = req.body;
+  let coupon
+  if(discount){
+    coupon = await stripe.coupons.retrieve(`${discount}`);
+  }
   if (req.method === "POST") {
     try {
       const params = {
         submit_type: "pay",
         mode: "payment",
-        // discounts: [
-        //   {
-        //     coupon: `${coupon.id}`,
-        //   },
-        // ],
+        ...(discount && {
+          discounts: [
+            {
+              coupon: `${coupon.id || ""}`,
+            },
+          ],
+        }),
+        shipping_address_collection: {
+          allowed_countries: ['VN'],
+        },
         payment_method_types: ["card"],
-        billing_address_collection: "auto",
+        billing_address_collection: "required",
         shipping_options: [
           {
             shipping_rate_data: {

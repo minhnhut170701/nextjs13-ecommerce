@@ -25,27 +25,32 @@ const PaymentInfo = () => {
   }, [totalPrice, dispatch, cart]);
 
   const handleCheckout = async () => {
-    const stripe = await getStripe();
-    const response = await fetch("/api/stripe", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        cart: cart,
-        // discount: decodeURIComponent(searchParams.get("discount")) || "",
-      }),
-    });
-
-    if (!response.ok) return;
-
-    const data = await response.json();
-
-    toast.loading("Redirecting...");
-
-    stripe.redirectToCheckout({ sessionId: data.id });
-
-    dispatch(setSuccess(true))
+    try {
+      
+      const stripe = await getStripe();
+      const response = await fetch("/api/stripe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cart: cart,
+          discount: decodeURIComponent(searchParams.get("discount")) || "",
+        }),
+      });
+  
+      if (!response.ok) return;
+  
+      const data = await response.json();
+  
+      toast.loading("Redirecting...");
+  
+      await stripe.redirectToCheckout({ sessionId: data.id });
+  
+      dispatch(setSuccess(true))
+    } catch (error) {
+      console.log('eeqwe nè: ', error)
+    }
   };
   return (
     <div className="border w-[40%] bg-white rounded-lg p-6">

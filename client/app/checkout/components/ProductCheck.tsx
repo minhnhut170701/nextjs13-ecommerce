@@ -28,7 +28,7 @@ const ProductCheck = () => {
     if(user){
       dispatch(getItemCart(user._id));
     }
-  }, [user,cart]);
+  }, []);
 
   return (
     <div className="w-[60%] bg-white p-6 rounded-lg shadow-lg overflow-y-scroll h-[600px]">
