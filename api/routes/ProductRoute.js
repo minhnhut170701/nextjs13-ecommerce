@@ -138,6 +138,18 @@ route.post("/create", async (req, res) => {
   }
 });
 
+// search product management
+
+route.post("/search/management", async (req, res) => {
+  const { searchText } = req.body;
+  const regexSearchText = new RegExp(searchText.toLowerCase(), "i");
+  try {
+    const products = await Product.find({productName: regexSearchText});
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ error: "Server Error" });
+  }
+});
 
 
 
