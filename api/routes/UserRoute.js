@@ -2,6 +2,7 @@ import express from "express";
 import User from "../models/UserModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
 
 const route = express.Router();
 
@@ -99,6 +100,95 @@ route.delete("/remove/:userId", async (req, res) => {
     }
   } catch (error) {
     res.status(500).send("Lỗi api");
+  }
+});
+
+
+route.post('/forgot', async (req, res) =>{
+  const { email } = req.body;
+
+  try {
+    // Find the user with the provided email in the database
+    const user = await User.findOne({ email });
+
+    // If the user does not exist, return an error response
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Generate a unique token for password reset
+    const token = generateToken(user._id);
+
+    // Save the token to the user's account in the database
+    user.resetPasswordToken = token;
+    user.resetPasswordExpires = Date.now() + 3600000; // Token expiration time (1 hour)
+
+    // Save the user with the token to the database
+
+    await user.save();
+
+    // Send the password reset email to the user's email address
+    const transporter = nodemailer.createTransport({
+      // Configure your email provider here, e.g., Gmail or SMTP
+      service: 'Gmail',
+      auth: {
+        user: process.env.EMAIL_ADRESS, // Replace with your email
+        pass: process.env.EMAIL_PASSWORD, // Replace with your email password
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_ADRESS,
+      to: email,
+      subject: 'Password Reset',
+      text: `You are receiving this email because you (or someone else) has requested the reset of the password for your account.\n\n
+      Please click on the following link, or paste this into your browser to complete the process:\n\n
+      https://nextjs13-ecommerce-five.vercel.app/authenticate/accpet?token=${token}\n\n
+      If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Error sending email:', error);
+        return res.status(500).json({ error: 'Error sending email' });
+      } else {
+        console.log('Email sent:', info.response);
+        return res.json({ message: 'Password reset link sent successfully' });
+      }
+    });
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+})
+
+
+route.post("/reset", async (req, res) => {
+  const { token, newPassword } = req.body;
+  try {
+    // Find the user with the provided token in the database
+    const user = await User.findOne({ resetPasswordToken: token });
+
+    // If the token is not found or has expired, return an error response
+    if (!user || user.resetPasswordExpires < Date.now()) {
+      return res.status(401).json({ error: "Invalid or expired token" });
+    }
+
+    // Hash the new password and update the user's password in the database
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+    user.password = hashedPassword;
+    user.resetPasswordToken = '';
+    user.resetPasswordExpires = '';
+
+    // Save the updated user in the database
+    await user.save();
+
+    // Send a success response
+    return res.json({ message: "Password changed successfully" });
+  } catch (error) {
+    console.error("Reset password error:", error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 });
 
