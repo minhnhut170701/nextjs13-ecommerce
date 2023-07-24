@@ -35,9 +35,9 @@ const HomePage = async () => {
       <main>
         <Banner />
         {/* INFO: category */}
-        <div className="flex space-x-6 w-[90%] mx-auto justify-center mt-10">
+        <div className="flex xl:space-x-6 xl:space-y-0 space-y-6 xl:w-[90%] mx-auto xl:justify-center mt-10 xl:flex-row flex-col">
           <div className="overflow-hidden relative">
-            <div className="w-[450px] h-[350px] bg-cate-1 bg-center bg-no-repeat overflow-hidden hover:scale-110 transition-all duration-300" />
+            <div className="xl:w-[450px] h-[350px] w-full bg-cate-1 bg-center bg-no-repeat overflow-hidden hover:scale-110 transition-all duration-300" />
             <aside className="absolute top-0 left-0 p-10 text-white">
               <h3 className="text-xl font-semibold">Bộ sưu tập mùa hè</h3>
               <p>Mua 1 tặng 1</p>
@@ -56,7 +56,7 @@ const HomePage = async () => {
             </aside>
           </div>
           <div className="overflow-hidden relative">
-            <div className="w-[450px] h-[350px] bg-cate-2 bg-center bg-no-repeat bg-cover overflow-hidden hover:scale-110 transition-all duration-300" />
+            <div className="xl:w-[450px] h-[350px] w-full bg-cate-2 bg-center bg-no-repeat bg-cover overflow-hidden hover:scale-110 transition-all duration-300" />
             <aside className="absolute top-0 left-0 p-10 text-white ">
               <h3 className="text-xl font-semibold">Bộ sưu tập mùa hè</h3>
               <p>Mua 1 tặng 1</p>
@@ -75,7 +75,7 @@ const HomePage = async () => {
             </aside>
           </div>
           <div className="overflow-hidden relative">
-            <div className="w-[450px] h-[350px] bg-cate-3 bg-cover bg-center bg-no-repeat overflow-hidden hover:scale-110 transition-all duration-300   " />
+            <div className="xl:w-[450px] h-[350px] w-full bg-cate-3 bg-cover bg-center bg-no-repeat overflow-hidden hover:scale-110 transition-all duration-300   " />
             <aside className="absolute bottom-0 left-[50%] p-10 z-20  w-[90%] bg-white">
               <h3 className="text-xl">Váy</h3>
               <Link
@@ -92,7 +92,7 @@ const HomePage = async () => {
         </div>
         {/* list product */}
         <div className="flex justify-between w-[80%] mx-auto mt-20">
-          <div className="w-[20%]">
+          <div className="xl:w-[20%]">
             <ToolBar />
           </div>
 

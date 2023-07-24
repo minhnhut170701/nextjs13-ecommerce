@@ -82,7 +82,7 @@ const LoginForm = () => {
             <input type="checkbox" name="remember" />
             <label htmlFor="remember">Nhớ mật khẩu</label>
           </div>
-          <button className="font-semibold underline">Quên mật khẩu</button>
+          <Link href="/authenticate/forgot" className="font-semibold underline">Quên mật khẩu</Link>
         </section>
         <button
           type="submit"

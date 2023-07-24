@@ -33,10 +33,10 @@ const CartDetail = () => {
       0
     );
     if (cart) {
-      setTotalPrice(total);
+      setTotalPrice(Math.round(total));
     }
     if (discount) {
-      setTotalPrice((total / 100) * 90);
+      setTotalPrice(Math.round((total / 100) * 90));
     }
   }, [totalPrice, dispatch, cart, discount]);
 

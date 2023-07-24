@@ -43,6 +43,7 @@ const ToolBar = () => {
     <div className="w-full">
       <form className="p-2 border w-[250px] mt-5" onSubmit={handleSubmitSearch}>
         <input
+          id="searchId"
           type="text"
           placeholder="Tìm kiếm sản phẩm..."
           name="searchText"
