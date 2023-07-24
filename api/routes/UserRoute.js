@@ -89,6 +89,20 @@ route.get("/all", async (req, res) => {
   }
 });
 
+// find user by email
+route.post("/find/email", async (req, res) => {
+  const {email} = req.body
+  try {
+    const user = await User.findOne({email: email });
+    if (user) {
+      res.status(200).json(user);
+    }
+  } catch (error) {
+    res.status(500).send("Lỗi api");
+  }
+});
+
+
 // delete user
 route.delete("/remove/:userId", async (req, res) => {
   try {
