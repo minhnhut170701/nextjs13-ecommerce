@@ -64,6 +64,7 @@ route.post("/login", async (req, res) => {
           _id: logInUser._id,
           name: logInUser.userName,
           email: logInUser.email,
+          isAdmin: logInUser.isAdmin,
           token: generateToken(logInUser._id),
         });
       } else {
