@@ -13,7 +13,7 @@ import {
 } from "../../../feature/Cart/CartSlice";
 
 const ProductCheck = () => {
-  const { cart } = useSelector((state: any) => state.cart);
+  const { cart, isSuccess } = useSelector((state: any) => state.cart);
   const { user } = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
   const route = useRouter();
@@ -29,6 +29,12 @@ const ProductCheck = () => {
       dispatch(getItemCart(user._id));
     }
   }, []);
+
+  useEffect(() => {
+    if(user){
+      dispatch(getItemCart(user._id));
+    }
+  }, [user,cart, isSuccess]);
 
   return (
     <div className="w-[60%] bg-white p-6 rounded-lg shadow-lg overflow-y-scroll h-[600px]">
