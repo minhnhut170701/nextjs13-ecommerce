@@ -1,6 +1,7 @@
 import express from "express";
 import Cart from "../models/CartModel.js";
 import User from "../models/UserModel.js";
+import Product from "../models/ProductModel.js";
 
 const route = express.Router();
 
@@ -145,6 +146,23 @@ route.post("/clearCart/:userId", async (req, res) => {
     // Find the user by ID and get the cart array
     const user = await User.findById(userId);
     const cartIds = user.cart;
+
+    // Retrieve all cart items from the cart model
+    const cartItems = await Cart.find({ _id: { $in: cartIds } });
+
+    // Loop through the cart items to check if the products have been sold and update their quantities
+    for (const cartItem of cartItems) {
+      const product = await Product.findById(cartItem.productId);
+
+      if (product && product.total > 0) {
+        // Decrease the product quantity in the 'total' field by the quantity in the cart
+        product.total -= cartItem.qty;
+        if (product.total < 0) {
+          product.total = 0; // Make sure 'total' cannot be negative
+        }
+        await product.save();
+      }
+    }
 
     // Remove all cart items from the user model
     user.cart = [];

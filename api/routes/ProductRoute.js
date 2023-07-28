@@ -111,7 +111,8 @@ route.post("/create", async (req, res) => {
     passForProduct,
     infor,
     description,
-    photo
+    photo,
+    total
   } = req.body;
 
   try {
@@ -126,6 +127,7 @@ route.post("/create", async (req, res) => {
         passForProduct,
         infor,
         description,
+        total
       });
       if (newProduct) {
         res.status(200).json(newProduct);
@@ -145,6 +147,25 @@ route.post("/search/management", async (req, res) => {
   const regexSearchText = new RegExp(searchText.toLowerCase(), "i");
   try {
     const products = await Product.find({productName: regexSearchText});
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ error: "Server Error" });
+  }
+});
+
+
+// add total for product sold out
+route.post("/refill/product/:productId", async (req, res) => {
+  const { total } = req.body;
+  try {
+    const product = await Product.findById(req.params.productId);
+
+    if(product){
+      if(product.total == 0){
+        product.total = total;
+        await product.save();
+      }
+    }
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ error: "Server Error" });

@@ -47,6 +47,10 @@ const productSchema = new mongoose.Schema({
   qty: {
     type: Number,
   },
+  total: {
+    type: Number,
+    require: [true, "sản phẩm phải có số lượng tồn kho"],
+  }
 });
 
 export default mongoose.model("Product", productSchema);
