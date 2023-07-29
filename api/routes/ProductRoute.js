@@ -112,7 +112,7 @@ route.post("/create", async (req, res) => {
     infor,
     description,
     photo,
-    total
+    quanity
   } = req.body;
 
   try {
@@ -127,7 +127,7 @@ route.post("/create", async (req, res) => {
         passForProduct,
         infor,
         description,
-        total
+        quanity
       });
       if (newProduct) {
         res.status(200).json(newProduct);
@@ -156,17 +156,17 @@ route.post("/search/management", async (req, res) => {
 
 // add total for product sold out
 route.post("/refill/product/:productId", async (req, res) => {
-  const { total } = req.body;
+  const { quanity } = req.body;
   try {
     const product = await Product.findById(req.params.productId);
 
     if(product){
-      if(product.total == 0){
-        product.total = total;
+      if(product.quanity == 0){
+        product.quanity = quanity;
         await product.save();
       }
     }
-    res.status(200).json(products);
+    res.status(200).json(product);
   } catch (error) {
     res.status(500).json({ error: "Server Error" });
   }

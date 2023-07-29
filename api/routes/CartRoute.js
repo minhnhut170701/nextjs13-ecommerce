@@ -7,6 +7,12 @@ const route = express.Router();
 
 const discountArray = ["nhutdeptrai"];
 
+function generateIdentityId(prefix, suffix) {
+  const randomNum = Math.random().toString(36).substr(2, 10); // Generate a random alphanumeric string of length 10
+  return (prefix || '') + randomNum + (suffix || '');
+}
+
+
 // get array cart
 route.get("/:userId", async (req, res) => {
   try {
@@ -149,17 +155,17 @@ route.post("/clearCart/:userId", async (req, res) => {
 
     // Retrieve all cart items from the cart model
     const cartItems = await Cart.find({ _id: { $in: cartIds } });
-
+    
     // Loop through the cart items to check if the products have been sold and update their quantities
     for (const cartItem of cartItems) {
-      const product = await Product.findById(cartItem.productId);
-
-      if (product && product.total > 0) {
+      const product = await Product.findOne({productName: cartItem.productName, price: cartItem.price});
+      if (product) {
         // Decrease the product quantity in the 'total' field by the quantity in the cart
-        product.total -= cartItem.qty;
-        if (product.total < 0) {
-          product.total = 0; // Make sure 'total' cannot be negative
+        product.quanity -= cartItem.qty;
+        if (product.quanity < 0) {
+          product.quanity = 0; // Make sure 'total' cannot be negative
         }
+        
         await product.save();
       }
     }

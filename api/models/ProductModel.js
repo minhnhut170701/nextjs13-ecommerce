@@ -47,7 +47,7 @@ const productSchema = new mongoose.Schema({
   qty: {
     type: Number,
   },
-  total: {
+  quanity: {
     type: Number,
     require: [true, "sản phẩm phải có số lượng tồn kho"],
   }
