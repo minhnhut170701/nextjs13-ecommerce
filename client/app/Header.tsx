@@ -22,6 +22,7 @@ const Header = () => {
   const route = useRouter();
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [clientRendered, setClientRendered] = useState(false);
   const ref: any = useRef(false);
   const handleWindowResize = () => {
     if (window !== undefined) {
@@ -61,6 +62,7 @@ const Header = () => {
   };
 
   useEffect(() => {
+    setClientRendered(true);
     window.addEventListener("scroll", handleWindowResize);
     return () => {
       window.removeEventListener("scroll", handleWindowResize);
@@ -120,7 +122,7 @@ const Header = () => {
             </a>
           </li>
           <li>
-            {user ? (
+            {user && clientRendered ? (
               <button
                 className="flex space-x-2 items-center"
                 onClick={handleLogout}
@@ -161,7 +163,7 @@ const Header = () => {
       <div className=" xl:hidden w-[80%] flex justify-end" onClick={toggleModal}>
         <ul className="flex items-center space-x-4 mr-5">
           <li className="flex justify-center">
-              {user ? (
+              {user && clientRendered ? (
               <button
                 className="flex space-x-2 items-center"
                 onClick={handleLogout}

@@ -69,6 +69,7 @@ const ListProductHome = ({ product }: any) => {
     if(user){
       dispatch(getItemCart(user._id));
     }
+
   }, [user,message]);
 
   return (

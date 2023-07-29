@@ -19,6 +19,7 @@ interface ProductDetailType {
   description: string;
   qty: number;
   productData: any;
+  quanity: number;
 }
 
 type Product = {
@@ -72,11 +73,13 @@ const ProductDetail = ({
   passForProduct,
   description,
   qty,
+  quanity,
   productData,
 }: ProductDetailType) => {
   const dispatch = useDispatch();
   const route = useRouter();
   const [countQty, setCountQty] = useState(1);
+  const [isSoldOut, setIsSoldOut] = useState(false)
   const { user } = useSelector((state: any) => state.user);
   const { message } = useSelector((state: any) => state.cart);
   useEffect(() => {
@@ -86,6 +89,9 @@ const ProductDetail = ({
   useEffect(() => {
     if(user){
       dispatch(getItemCart(user._id));
+    }
+    if(quanity <= 0 ){
+      setIsSoldOut(true)
     }
   }, [user,message]);
 
@@ -103,7 +109,7 @@ const ProductDetail = ({
           userId: user._id,
         })
       );
-      toast.success("Đã thêm vào giỏ hàng");
+      toast.success("Đã thêm vào giỏ hàng", {autoClose: 2000});
     } else {
       toast.warning("Vui lòng đăng nhập");
     }
@@ -232,14 +238,20 @@ const ProductDetail = ({
               />
               <button onClick={() => setCountQty(countQty - 1)}>-</button>
             </div>
-            <button
+            {isSoldOut ? <div className="uppercase p-4 font-semibold bg-gray-300">Sản phẩm đã hết</div> 
+            : <button
               className="uppercase p-4 font-semibold bg-yellow-300"
               onClick={() => handleAddToCart(productData, countQty)}
             >
               Thêm vào giỏ
-            </button>
+            </button> }
+            
           </div>
           <article className="space-y-3">
+            <aside className="flex space-x-4">
+              <h5 className="text-lg font-semibold uppercase">Số Lượng: </h5>
+              <p>{quanity}</p>
+            </aside>
             <aside className="flex space-x-4">
               <h5 className="text-lg font-semibold uppercase">SKU: </h5>
               <p>{passForProduct}</p>

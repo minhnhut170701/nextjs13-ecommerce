@@ -10,7 +10,7 @@ const Product = ({ data }: any) => {
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  let currentPosts = product.slice(indexOfFirstPost, indexOfLastPost);
+  let currentPosts = product.filter((item: any) => item.quanity > 0).slice(indexOfFirstPost, indexOfLastPost);
   const totalProduct = product.length;
   // Change page
   const paginate = (pageNumber: React.SetStateAction<number>) =>

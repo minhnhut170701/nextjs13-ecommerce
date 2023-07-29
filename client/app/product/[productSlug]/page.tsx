@@ -76,6 +76,7 @@ const ProductDetailPage = async ({ params }: any) => {
           passForProduct={product.passForProduct}
           description={product.description}
           qty={product.qty}
+          quanity={product.quanity}
         />
       </div>
       {/* INFO: infor and review product */}
